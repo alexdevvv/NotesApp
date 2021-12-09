@@ -1,17 +1,16 @@
-package com.example.notesapp
+package com.example.notesapp.registration.notes_screen
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.notesapp.R
 
-
-class RegistrationScreen : Fragment() {
+class NotesScreen : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -19,7 +18,7 @@ class RegistrationScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration_screen, container, false)
+        return inflater.inflate(R.layout.fragment_notes_screen, container, false)
     }
 
 }
