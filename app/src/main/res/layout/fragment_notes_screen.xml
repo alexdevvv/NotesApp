@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".registration.notes_screen.NotesScreen">
+    tools:context=".presentation.registration.notes_screen.NotesScreen">
 
     <TextView
         android:layout_width="match_parent"

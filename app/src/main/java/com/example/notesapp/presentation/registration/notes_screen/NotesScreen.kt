@@ -1,4 +1,4 @@
-package com.example.notesapp.registration.notes_screen
+package com.example.notesapp.presentation.registration.notes_screen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
