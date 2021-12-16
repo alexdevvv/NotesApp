@@ -11,12 +11,14 @@ import com.example.notesapp.domain.controller.NetworkController
 import com.example.notesapp.domain.model.ModelSendDataOnServer
 import com.example.notesapp.domain.usecases.RegistrationUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
 class RegistrationScreenVM : ViewModel() {
 
     var registrationUseCase: RegistrationUseCase? = null
+    private val disposable = CompositeDisposable()
 
     init {
          val retrofit = RetrofitKeeper.getInstance()
@@ -24,27 +26,36 @@ class RegistrationScreenVM : ViewModel() {
          val networkController: NetworkController = NetworkControllerImpl(api)
          registrationUseCase = RegistrationUseCase(networkController)
     }
-    
+
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
+    private val liveDataError = MutableLiveData<String>()
 
-    fun liveData() = liveDataModel
+    fun getLiveDataModel() = liveDataModel
+    fun getLiveDataError() = liveDataError
 
-    fun getData(modelSendDataOnServer: ModelSendDataOnServer) {
+    fun getResponseServer(modelSendDataOnServer: ModelSendDataOnServer) {
         if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
-//            Log.e("XXX", modelSendDataOnServer.username + "" + modelSendDataOnServer.password)
-            registrationUseCase!!
-                .execute(modelSendDataOnServer)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    Consumer {
-                        Log.e("XXX", it.username) },
-                    {
-                        Log.e("XXX", "ERROR")
-                    }
-                ).dispose()
+           disposable.add(registrationUseCase!!
+               .execute(modelSendDataOnServer)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(
+                   Consumer {
+//                       Log.e("XXX", it.username)
+                            getLiveDataModel().postValue(ModelResponseServer(it.id, it.username))
+                            },
+
+                   {
+                        liveDataModel.postValue(ModelResponseServer(0, ""))
+                   }
+               ))
         }
 
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
     }
 
 }
