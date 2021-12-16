@@ -41,15 +41,15 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
                 val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
                 fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
             }else{
-                    createDialogError()
+                createDialogError()
             }
         })
     }
 
     private fun createDialogError() {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Сообщение")
-        builder.setMessage("Такой пользователь уже зарегистрирован!")
+        builder.setTitle(R.string.alert_dialog_title)
+        builder.setMessage(R.string.alert_dialog_message)
         builder.setCancelable(true)
         builder.setNegativeButton(
             android.R.string.ok
