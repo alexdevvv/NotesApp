@@ -18,6 +18,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
+        bindLiveData()
         initRegistrationButton()
 
     }
@@ -28,30 +29,30 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
                 binding.userNameEt.text.toString(), binding.userPasswordEt.text.toString()
             )
             viewModel!!.getResponseServer(modelSendDataOnServer)
-            getUserData()
-
         }
-
     }
 
-    fun getUserData() {
+    private fun bindLiveData() {
         viewModel!!.getLiveDataModel().observe(viewLifecycleOwner, {
-            if (it.id != 0L) {
-                val fragmentNotesScreen = NotesScreen()
-                val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-                fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
-            }else{
-                createDialogError()
-            }
+            createFragmentNotesScreen()
+        })
+
+        viewModel!!.getLiveDatError().observe(viewLifecycleOwner, {
+            createDialogError(it)
         })
     }
 
-    private fun createDialogError() {
+    private fun createFragmentNotesScreen() {
+        val fragmentNotesScreen = NotesScreen()
+        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+        fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
+    }
+
+    private fun createDialogError(messageError: String) {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle(R.string.alert_dialog_title)
-        builder.setMessage(R.string.alert_dialog_message)
-        builder.setCancelable(true)
-        builder.setNegativeButton(
+        builder.setTitle(resources.getString(R.string.alert_dialog_title))
+        builder.setMessage(messageError)
+        builder.setPositiveButton(
             android.R.string.ok
         ) { dialog, which ->
             // Кнопка ОК
@@ -59,6 +60,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
         builder.create().show()
     }
+
 
 }
 

@@ -29,4 +29,6 @@
         android:text="@string/registration_button"
         android:layout_margin="8dp"/>
 
+
+
 </LinearLayout>

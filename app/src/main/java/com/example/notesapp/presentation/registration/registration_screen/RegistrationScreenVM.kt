@@ -14,6 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 
 class RegistrationScreenVM : ViewModel() {
 
@@ -29,9 +30,8 @@ class RegistrationScreenVM : ViewModel() {
 
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
-
+    fun getLiveDatError() = liveDataError
     fun getLiveDataModel() = liveDataModel
-    fun getLiveDataError() = liveDataError
 
     fun getResponseServer(modelSendDataOnServer: ModelSendDataOnServer) {
         if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
@@ -41,12 +41,15 @@ class RegistrationScreenVM : ViewModel() {
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(
                    Consumer {
-//                       Log.e("XXX", it.username)
                             getLiveDataModel().postValue(ModelResponseServer(it.id, it.username))
                             },
 
                    {
-                        liveDataModel.postValue(ModelResponseServer(0, ""))
+                       if (it is HttpException && it.response()?.code() == 400) {
+                           liveDataError.postValue("Пользователь с таким именем уже существует.")
+                       }else {
+
+                       }
                    }
                ))
         }

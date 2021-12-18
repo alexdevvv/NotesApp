@@ -23,6 +23,4 @@ class MainActivity : AppCompatActivity() {
         ft.replace(R.id.fragment_container, fragment).commit()
     }
 
-
-
 }
