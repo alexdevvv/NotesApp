@@ -3,13 +3,14 @@ package com.example.notesapp.presentation.registration.registration_screen
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
 import com.example.notesapp.domain.model.ModelSendDataOnServer
-import com.example.notesapp.presentation.registration.notes_screen.NotesScreen
 
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     private val binding: FragmentRegistrationScreenBinding by viewBinding()
@@ -19,12 +20,14 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
         bindLiveData()
-        initRegistrationButton()
-
+        initRegistrationViewGroup()
     }
 
-    private fun initRegistrationButton() {
-        binding.registrationBt.setOnClickListener() {
+    private fun initRegistrationViewGroup() {
+        binding.registrationViewGroup.setOnClickListener {
+            changeViewVisibility(binding.progressBar, true)
+            binding.registrationViewGroup.isEnabled = false
+            binding.registrationBt.isVisible = false
             val modelSendDataOnServer = ModelSendDataOnServer(
                 binding.userNameEt.text.toString(), binding.userPasswordEt.text.toString()
             )
@@ -34,18 +37,30 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
 
     private fun bindLiveData() {
         viewModel!!.getLiveDataModel().observe(viewLifecycleOwner, {
-            createFragmentNotesScreen()
+            changeViewVisibility(binding.progressBar, false)
+            stepOnFragmentNotesScreen()
+
         })
 
         viewModel!!.getLiveDatError().observe(viewLifecycleOwner, {
+            changeViewVisibility(binding.progressBar, false)
             createDialogError(it)
+            changeViewVisibility(binding.registrationBt, true)
+            binding.registrationViewGroup.isEnabled = true
+
         })
     }
 
-    private fun createFragmentNotesScreen() {
-        val fragmentNotesScreen = NotesScreen()
-        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
+    private fun stepOnFragmentNotesScreen() {
+//        val fragmentNotesScreen = NotesScreen()
+//        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+////        fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
+        findNavController().navigate(R.id.action_registrationScreen_to_notesScreen)
+    }
+
+
+    private fun changeViewVisibility(view: View, isVisible: Boolean) {
+        view.isVisible = isVisible
     }
 
     private fun createDialogError(messageError: String) {
@@ -55,12 +70,9 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         builder.setPositiveButton(
             android.R.string.ok
         ) { dialog, which ->
-            // Кнопка ОК
-            dialog.dismiss() // Отпускает диалоговое окно
+            dialog.dismiss()
         }
         builder.create().show()
     }
-
-
 }
 

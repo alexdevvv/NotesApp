@@ -30,6 +30,7 @@ class RegistrationScreenVM : ViewModel() {
 
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
+//    private val liveDataError
     fun getLiveDatError() = liveDataError
     fun getLiveDataModel() = liveDataModel
 
@@ -47,11 +48,11 @@ class RegistrationScreenVM : ViewModel() {
                    {
                        if (it is HttpException && it.response()?.code() == 400) {
                            liveDataError.postValue("Пользователь с таким именем уже существует.")
-                       }else {
-
                        }
                    }
                ))
+        } else {
+
         }
 
     }

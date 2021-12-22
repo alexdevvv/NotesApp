@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registrationScreen">
+
+    <fragment
+        android:id="@+id/registrationScreen"
+        android:name="com.example.notesapp.presentation.registration.registration_screen.RegistrationScreen"
+        android:label="fragment_registration_screen"
+        tools:layout="@layout/fragment_registration_screen" >
+        <action
+            android:id="@+id/action_registrationScreen_to_notesScreen"
+            app:destination="@id/notesScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesScreen"
+        android:name="com.example.notesapp.presentation.registration.notes_screen.NotesScreen"
+        android:label="fragment_notes_screen"
+        tools:layout="@layout/fragment_notes_screen" />
+</navigation>
