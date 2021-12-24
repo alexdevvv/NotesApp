@@ -6,7 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface NotesAPI {
-
     @POST("users")
     fun getDataRegistrationUser(@Body body: ModelSendDataOnServer): Single<ModelResponseServer>
 }

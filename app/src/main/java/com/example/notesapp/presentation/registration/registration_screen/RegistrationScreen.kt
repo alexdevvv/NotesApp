@@ -21,6 +21,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
         bindLiveData()
         initRegistrationViewGroup()
+
     }
 
     private fun initRegistrationViewGroup() {
@@ -52,9 +53,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     }
 
     private fun stepOnFragmentNotesScreen() {
-//        val fragmentNotesScreen = NotesScreen()
-//        val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-////        fragmentTransaction?.replace(R.id.fragment_container, fragmentNotesScreen)?.commit()
         findNavController().navigate(R.id.action_registrationScreen_to_notesScreen)
     }
 
@@ -74,5 +72,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
         builder.create().show()
     }
+
+
 }
 
