@@ -73,6 +73,5 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         builder.create().show()
     }
 
-
 }
 

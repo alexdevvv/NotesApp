@@ -1,0 +1,21 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+ext{
+    rxjava = "2.2.9"
+    rxandroid = "2.1.1"
+}
+
+dependencies {
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+}

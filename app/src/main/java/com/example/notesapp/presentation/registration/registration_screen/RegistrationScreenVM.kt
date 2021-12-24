@@ -1,13 +1,12 @@
 package com.example.notesapp.presentation.registration.registration_screen
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.notesapp.data.datacontroller.NetworkControllerImpl
-import com.example.notesapp.data.retrofit.ModelResponseServer
 import com.example.notesapp.data.retrofit.NotesAPI
 import com.example.notesapp.data.retrofit.RetrofitKeeper
 import com.example.notesapp.domain.controller.NetworkController
+import com.example.notesapp.domain.model.ModelResponseServer
 import com.example.notesapp.domain.model.ModelSendDataOnServer
 import com.example.notesapp.domain.usecases.RegistrationUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,4 +1,4 @@
-package com.example.notesapp.data.retrofit
+package com.example.notesapp.domain.model
 
 class ModelResponseServer(
     var id:Long,
