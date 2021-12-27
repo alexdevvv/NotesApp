@@ -16,11 +16,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     private val binding: FragmentRegistrationScreenBinding by viewBinding()
     private val viewModel: RegistrationScreenVM by viewModel()
-//    private var viewModel: RegistrationScreenVM? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
         bindLiveData()
         initRegistrationViewGroup()
 

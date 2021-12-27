@@ -14,13 +14,7 @@ import retrofit2.HttpException
 class RegistrationScreenVM(
                            private val registrationUseCase: RegistrationUseCase) : ViewModel() {
 
-//    var registrationUseCase: RegistrationUseCase? = null
     private val disposable = CompositeDisposable()
-//
-//    init {
-//         val networkController: NetworkController = NetworkControllerImpl(api)
-//         registrationUseCase = RegistrationUseCase(networkController)
-//    }
 
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
