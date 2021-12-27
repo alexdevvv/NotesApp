@@ -2,10 +2,6 @@ package com.example.notesapp.presentation.registration.registration_screen
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notesapp.data.datacontroller.NetworkControllerImpl
-import com.example.notesapp.data.retrofit.NotesAPI
-import com.example.notesapp.data.retrofit.RetrofitKeeper
-import com.example.notesapp.domain.controller.NetworkController
 import com.example.notesapp.domain.model.ModelResponseServer
 import com.example.notesapp.domain.model.ModelSendDataOnServer
 import com.example.notesapp.domain.usecases.RegistrationUseCase
@@ -15,15 +11,16 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class RegistrationScreenVM(private val api: NotesAPI) : ViewModel() {
+class RegistrationScreenVM(
+                           private val registrationUseCase: RegistrationUseCase) : ViewModel() {
 
-    var registrationUseCase: RegistrationUseCase? = null
+//    var registrationUseCase: RegistrationUseCase? = null
     private val disposable = CompositeDisposable()
-
-    init {
-         val networkController: NetworkController = NetworkControllerImpl(api)
-         registrationUseCase = RegistrationUseCase(networkController)
-    }
+//
+//    init {
+//         val networkController: NetworkController = NetworkControllerImpl(api)
+//         registrationUseCase = RegistrationUseCase(networkController)
+//    }
 
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
