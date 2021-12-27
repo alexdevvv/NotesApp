@@ -15,23 +15,23 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class RegistrationScreenVM : ViewModel() {
+class RegistrationScreenVM(private val api: NotesAPI) : ViewModel() {
 
     var registrationUseCase: RegistrationUseCase? = null
     private val disposable = CompositeDisposable()
 
     init {
-         val retrofit = RetrofitKeeper.getInstance()
-         val api: NotesAPI = retrofit!!.create(NotesAPI::class.java)
          val networkController: NetworkController = NetworkControllerImpl(api)
          registrationUseCase = RegistrationUseCase(networkController)
     }
 
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
-//    private val liveDataError
+    private val liveDataUserDataEmpty = MutableLiveData<String>()
+
     fun getLiveDatError() = liveDataError
     fun getLiveDataModel() = liveDataModel
+    fun getLiveDataUserDataEmpty() = liveDataUserDataEmpty
 
     fun getResponseServer(modelSendDataOnServer: ModelSendDataOnServer) {
         if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
@@ -41,7 +41,7 @@ class RegistrationScreenVM : ViewModel() {
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(
                    Consumer {
-                            getLiveDataModel().postValue(ModelResponseServer(it.id, it.username))
+                            liveDataModel.postValue(ModelResponseServer(it.id, it.username))
                             },
 
                    {
@@ -51,7 +51,7 @@ class RegistrationScreenVM : ViewModel() {
                    }
                ))
         } else {
-
+            liveDataUserDataEmpty.postValue("Не все поля заполнены!")
         }
 
     }
@@ -59,6 +59,7 @@ class RegistrationScreenVM : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         disposable.dispose()
+        disposable.clear()
     }
 
 }

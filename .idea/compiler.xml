@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.7">
       <module name="NotesApp.app" target="11" />
       <module name="NotesApp.data" target="11" />
+      <module name="NotesApp.di" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -13,12 +13,13 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     }
 
     private fun initBack() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
-            OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        })
+        with(requireActivity()) {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+                OnBackPressedCallback(true){
+                override fun handleOnBackPressed() {
+                    finish()
+                }
+            })
+        }
     }
-
 }

@@ -11,28 +11,32 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
 import com.example.notesapp.domain.model.ModelSendDataOnServer
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     private val binding: FragmentRegistrationScreenBinding by viewBinding()
-    private var viewModel: RegistrationScreenVM? = null
+    private val viewModel: RegistrationScreenVM by viewModel()
+//    private var viewModel: RegistrationScreenVM? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
+//        viewModel = ViewModelProvider(this).get(RegistrationScreenVM::class.java)
         bindLiveData()
         initRegistrationViewGroup()
 
     }
 
     private fun initRegistrationViewGroup() {
-        binding.registrationViewGroup.setOnClickListener {
-            changeViewVisibility(binding.progressBar, true)
-            binding.registrationViewGroup.isEnabled = false
-            binding.registrationBt.isVisible = false
-            val modelSendDataOnServer = ModelSendDataOnServer(
-                binding.userNameEt.text.toString(), binding.userPasswordEt.text.toString()
-            )
-            viewModel!!.getResponseServer(modelSendDataOnServer)
+        with(binding){
+            registrationViewGroup.setOnClickListener {
+                changeViewVisibility(progressBar, true)
+                registrationViewGroup.isEnabled = false
+                registrationBt.isVisible = false
+                val modelSendDataOnServer = ModelSendDataOnServer(
+                    userNameEt.text.toString(), userPasswordEt.text.toString()
+                )
+                viewModel!!.getResponseServer(modelSendDataOnServer)
+            }
         }
     }
 
@@ -49,6 +53,13 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             changeViewVisibility(binding.registrationBt, true)
             binding.registrationViewGroup.isEnabled = true
 
+        })
+
+        viewModel!!.getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
+            changeViewVisibility(binding.progressBar, false)
+            createDialogError(it.toString())
+            changeViewVisibility(binding.registrationBt, true)
+            binding.registrationViewGroup.isEnabled = true
         })
     }
 

@@ -8,7 +8,7 @@ import com.example.notesapp.domain.model.ModelSendDataOnServer
 import io.reactivex.Single
 
 class RegistrationUseCase(val networkController: NetworkController) {
-    fun execute(body: ModelSendDataOnServer): Single<ModelResponseServer> {
-       return networkController.fetchDataUserRegistration(body = body)
-    }
+    fun execute(body: ModelSendDataOnServer): Single<ModelResponseServer> =
+        networkController.fetchDataUserRegistration(body = body)
+
 }
