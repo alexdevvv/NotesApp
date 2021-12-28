@@ -39,24 +39,27 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     }
 
     private fun bindLiveData() {
-        viewModel!!.getLiveDataModel().observe(viewLifecycleOwner, {
-            changeVisibilityView(binding.progressBar, false)
-            stepOnFragmentNotesScreen()
+        with(viewModel) {
+            getLiveDataModel().observe(viewLifecycleOwner, {
+                changeVisibilityView(binding.progressBar, false)
+                stepOnFragmentNotesScreen()
 
-        })
+            })
 
-        viewModel!!.getLiveDatError().observe(viewLifecycleOwner, {
-            changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
-            createDialogError(it)
-            binding.registrationViewGroup.isEnabled = true
+            getLiveDatError().observe(viewLifecycleOwner, {
+                changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
+                createDialogError(it)
+                binding.registrationViewGroup.isEnabled = true
 
-        })
+            })
 
-        viewModel!!.getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
-            changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
-            createDialogError(it.toString())
-            binding.registrationViewGroup.isEnabled = true
-        })
+            getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
+                changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
+                createDialogError(it.toString())
+                binding.registrationViewGroup.isEnabled = true
+            })
+        }
+
     }
 
     private fun stepOnFragmentNotesScreen() {

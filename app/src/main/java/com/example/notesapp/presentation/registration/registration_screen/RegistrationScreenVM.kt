@@ -11,11 +11,9 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class RegistrationScreenVM(
-                           private val registrationUseCase: RegistrationUseCase) : ViewModel() {
+class RegistrationScreenVM(private val registrationUseCase: RegistrationUseCase) : ViewModel() {
 
     private val disposable = CompositeDisposable()
-
     private val liveDataModel = MutableLiveData<ModelResponseServer>()
     private val liveDataError = MutableLiveData<String>()
     private val liveDataUserDataEmpty = MutableLiveData<String>()
@@ -38,6 +36,8 @@ class RegistrationScreenVM(
                    {
                        if (it is HttpException && it.response()?.code() == 400) {
                            liveDataError.postValue("Пользователь с таким именем уже существует.")
+                       } else {
+                           liveDataError.postValue(it.toString())
                        }
                    }
                ))
