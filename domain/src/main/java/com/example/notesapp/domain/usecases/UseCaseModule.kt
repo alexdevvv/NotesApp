@@ -1,4 +1,4 @@
-package com.example.notesapp.presentation.registration.registration_screen
+package com.example.notesapp.domain.usecases
 
 import com.example.notesapp.domain.usecases.RegistrationUseCase
 import org.koin.dsl.module

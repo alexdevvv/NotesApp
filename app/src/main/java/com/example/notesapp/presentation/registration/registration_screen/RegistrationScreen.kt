@@ -3,6 +3,7 @@ package com.example.notesapp.presentation.registration.registration_screen
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,15 +22,14 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
         initRegistrationViewGroup()
-
+        initSystemBackButton()
     }
 
     private fun initRegistrationViewGroup() {
-        with(binding){
+        with(binding) {
             registrationViewGroup.setOnClickListener {
-                changeViewVisibility(progressBar, true)
-                registrationViewGroup.isEnabled = false
-                registrationBt.isVisible = false
+                registrationViewGroup.isEnabled = false //  Кликабельность
+                changeVisibilityTwoView(progressBar, true, registrationBt, false)
                 val modelSendDataOnServer = ModelSendDataOnServer(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
@@ -40,23 +40,21 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
 
     private fun bindLiveData() {
         viewModel!!.getLiveDataModel().observe(viewLifecycleOwner, {
-            changeViewVisibility(binding.progressBar, false)
+            changeVisibilityView(binding.progressBar, false)
             stepOnFragmentNotesScreen()
 
         })
 
         viewModel!!.getLiveDatError().observe(viewLifecycleOwner, {
-            changeViewVisibility(binding.progressBar, false)
+            changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
             createDialogError(it)
-            changeViewVisibility(binding.registrationBt, true)
             binding.registrationViewGroup.isEnabled = true
 
         })
 
         viewModel!!.getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
-            changeViewVisibility(binding.progressBar, false)
+            changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
             createDialogError(it.toString())
-            changeViewVisibility(binding.registrationBt, true)
             binding.registrationViewGroup.isEnabled = true
         })
     }
@@ -66,8 +64,29 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     }
 
 
-    private fun changeViewVisibility(view: View, isVisible: Boolean) {
+    private fun changeVisibilityView(view: View, isVisible: Boolean) {
         view.isVisible = isVisible
+    }
+
+    private fun changeVisibilityTwoView(
+        view1: View,
+        isVisibleView1: Boolean,
+        view2: View,
+        isVisibleView2: Boolean
+    ) {
+        view1.isVisible = isVisibleView1
+        view2.isVisible = isVisibleView2
+    }
+
+    private fun initSystemBackButton() {
+        with(requireActivity()) {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+                OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    finish()
+                }
+            })
+        }
     }
 
     private fun createDialogError(messageError: String) {
@@ -81,6 +100,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
         builder.create().show()
     }
+
 
 }
 

@@ -18,5 +18,9 @@
         android:id="@+id/notesScreen"
         android:name="com.example.notesapp.presentation.registration.notes_screen.NotesScreen"
         android:label="fragment_notes_screen"
-        tools:layout="@layout/fragment_notes_screen" />
+        tools:layout="@layout/fragment_notes_screen" >
+        <action
+            android:id="@+id/action_notesScreen_to_registrationScreen"
+            app:destination="@id/registrationScreen" />
+    </fragment>
 </navigation>
