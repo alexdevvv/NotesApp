@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
 import com.example.notesapp.domain.model.ModelSendDataOnServer
+
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {

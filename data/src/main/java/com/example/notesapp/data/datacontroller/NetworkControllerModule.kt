@@ -1,4 +1,4 @@
-package com.example.notesapp.presentation.registration.di
+package com.example.notesapp.data.datacontroller
 
 import com.example.notesapp.data.datacontroller.NetworkControllerImpl
 import com.example.notesapp.domain.controller.NetworkController
@@ -9,3 +9,4 @@ val networkControllerModule = module {
         NetworkControllerImpl(get())
     }
 }
+
