@@ -1,6 +1,5 @@
-package com.example.di
+package com.example.notesapp.data.retrofit
 
-import com.example.notesapp.data.retrofit.NotesAPI
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

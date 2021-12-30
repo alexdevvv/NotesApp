@@ -1,5 +1,6 @@
 package com.example.notesapp.presentation.registration.registration_screen
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.notesapp.domain.model.ModelResponseServer
@@ -18,9 +19,9 @@ class RegistrationScreenVM(private val registrationUseCase: RegistrationUseCase)
     private val liveDataError = MutableLiveData<String>()
     private val liveDataUserDataEmpty = MutableLiveData<String>()
 
-    fun getLiveDatError() = liveDataError
-    fun getLiveDataModel() = liveDataModel
-    fun getLiveDataUserDataEmpty() = liveDataUserDataEmpty
+    fun getLiveDatError(): LiveData<String> = liveDataError
+    fun getLiveDataModel(): LiveData<ModelResponseServer>  = liveDataModel
+    fun getLiveDataUserDataEmpty(): LiveData<String> = liveDataUserDataEmpty
 
     fun getResponseServer(modelSendDataOnServer: ModelSendDataOnServer) {
         if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
@@ -32,7 +33,6 @@ class RegistrationScreenVM(private val registrationUseCase: RegistrationUseCase)
                    Consumer {
                             liveDataModel.postValue(ModelResponseServer(it.id, it.username))
                             },
-
                    {
                        if (it is HttpException && it.response()?.code() == 400) {
                            liveDataError.postValue("Пользователь с таким именем уже существует.")
@@ -44,8 +44,8 @@ class RegistrationScreenVM(private val registrationUseCase: RegistrationUseCase)
         } else {
             liveDataUserDataEmpty.postValue("Не все поля заполнены!")
         }
-
     }
+
 
     override fun onCleared() {
         super.onCleared()

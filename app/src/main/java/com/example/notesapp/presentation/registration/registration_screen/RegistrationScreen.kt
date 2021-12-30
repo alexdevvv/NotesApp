@@ -29,7 +29,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         with(binding) {
             registrationViewGroup.setOnClickListener {
                 registrationViewGroup.isEnabled = false //  Кликабельность
-                changeVisibilityTwoView(progressBar, true, registrationBt, false)
+                changeVisibilityTwoView(isCheckedLoad = true)
                 val modelSendDataOnServer = ModelSendDataOnServer(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
@@ -47,14 +47,14 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             })
 
             getLiveDatError().observe(viewLifecycleOwner, {
-                changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
+                changeVisibilityTwoView(isCheckedLoad = false)
                 createDialogError(it)
                 binding.registrationViewGroup.isEnabled = true
 
             })
 
             getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
-                changeVisibilityTwoView(binding.progressBar, false, binding.registrationBt, true)
+                changeVisibilityTwoView(isCheckedLoad = false)
                 createDialogError(it.toString())
                 binding.registrationViewGroup.isEnabled = true
             })
@@ -71,14 +71,14 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         view.isVisible = isVisible
     }
 
-    private fun changeVisibilityTwoView(
-        view1: View,
-        isVisibleView1: Boolean,
-        view2: View,
-        isVisibleView2: Boolean
-    ) {
-        view1.isVisible = isVisibleView1
-        view2.isVisible = isVisibleView2
+    private fun changeVisibilityTwoView(isCheckedLoad: Boolean) {
+        if(isCheckedLoad) {
+            binding.progressBar.isVisible = true;
+            binding.registrationBt.isVisible = false;
+        } else {
+            binding.progressBar.isVisible = false;
+            binding.registrationBt.isVisible = true;
+        }
     }
 
     private fun initSystemBackButton() {
@@ -103,6 +103,8 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
         builder.create().show()
     }
+
+
 
 
 }
