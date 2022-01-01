@@ -29,13 +29,10 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         initRegistrationViewGroup()
         initSystemBackButton()
 
-
         view.setOnClickListener{
             hideKeyboard(requireActivity())
         }
     }
-
-
 
     fun hideKeyboard(activity: Activity) {
         val view = activity.findViewById<View>(android.R.id.content)
@@ -45,7 +42,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
-
 
     private fun initRegistrationViewGroup() {
         with(binding) {
@@ -125,9 +121,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
         builder.create().show()
     }
-
-
-
 
 }
 
