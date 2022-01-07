@@ -15,6 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import com.example.notesapp.domain.model.ModelSendDataOnServer
 
 
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
@@ -50,7 +51,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
                 val modelSendDataOnServer = ModelSendDataOnServer(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
-                viewModel!!.getResponseServer(modelSendDataOnServer)
+                viewModel.getResponseServer(modelSendDataOnServer)
             }
         }
     }

@@ -4,5 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registration_button">registration</string>
     <string name="alert_dialog_title">Сообщение</string>
+    <string name="login">login</string>
+    <string name="registration">registration</string>
 
 </resources>
