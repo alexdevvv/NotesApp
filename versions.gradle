@@ -1,0 +1,11 @@
+ext{
+    vbPropertyDelegate = '1.5.0-beta01'
+    retrofit = "2.9.0"
+    rxandroid = "2.1.1"
+    converter_gson = "2.4.0"
+    rxjava = "2.2.9"
+    lifecycle = "2.4.0-rc01"
+    ok_http = "4.3.1"
+    nav_comp = "2.3.5"
+    koin = "3.1.2"
+}

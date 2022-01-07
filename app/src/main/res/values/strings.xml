@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NotesApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registration_button">registration</string>
+    <string name="alert_dialog_title">Сообщение</string>
+
 </resources>
