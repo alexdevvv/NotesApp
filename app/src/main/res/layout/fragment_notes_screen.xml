@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".presentation.registration.notes_screen.NotesScreen">
+    tools:context=".screens.notes_screen.NotesScreen">
 
     <Button
         android:id="@+id/back_bt"

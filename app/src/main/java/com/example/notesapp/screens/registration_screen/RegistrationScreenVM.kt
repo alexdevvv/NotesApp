@@ -1,4 +1,4 @@
-package com.example.notesapp.presentation.registration.registration_screen
+package com.example.notesapp.screens.registration_screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

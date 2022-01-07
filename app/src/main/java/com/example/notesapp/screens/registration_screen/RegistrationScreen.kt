@@ -1,4 +1,4 @@
-package com.example.notesapp.presentation.registration.registration_screen
+package com.example.notesapp.screens.registration_screen
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
-import com.example.notesapp.domain.model.ModelSendDataOnServer
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.app.Activity

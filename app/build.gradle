@@ -86,8 +86,4 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin"
     implementation "io.insert-koin:koin-android-compat:$koin"
 
-
-
-
-
 }

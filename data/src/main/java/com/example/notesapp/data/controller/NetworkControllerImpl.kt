@@ -1,4 +1,4 @@
-package com.example.notesapp.data.datacontroller
+package com.example.notesapp.data.controller
 
 import com.example.notesapp.data.retrofit.NotesAPI
 import com.example.notesapp.domain.controller.NetworkController

@@ -1,6 +1,5 @@
-package com.example.notesapp.data.datacontroller
+package com.example.notesapp.data.controller
 
-import com.example.notesapp.data.datacontroller.NetworkControllerImpl
 import com.example.notesapp.domain.controller.NetworkController
 import org.koin.dsl.module
 

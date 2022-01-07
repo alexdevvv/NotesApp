@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.registration.registration_screen.RegistrationScreen">
+    tools:context=".screens.registration_screen.RegistrationScreen">
 
     <EditText
         android:id="@+id/user_name_et"

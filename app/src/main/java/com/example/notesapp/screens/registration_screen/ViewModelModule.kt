@@ -1,4 +1,4 @@
-package com.example.notesapp.presentation.registration.registration_screen
+package com.example.notesapp.screens.registration_screen
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

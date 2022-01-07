@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registrationScreen"
-        android:name="com.example.notesapp.presentation.registration.registration_screen.RegistrationScreen"
+        android:name="com.example.notesapp.screens.registration_screen.RegistrationScreen"
         android:label="fragment_registration_screen"
         tools:layout="@layout/fragment_registration_screen" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/notesScreen"
-        android:name="com.example.notesapp.presentation.registration.notes_screen.NotesScreen"
+        android:name="com.example.notesapp.screens.notes_screen.NotesScreen"
         android:label="fragment_notes_screen"
         tools:layout="@layout/fragment_notes_screen" >
         <action
