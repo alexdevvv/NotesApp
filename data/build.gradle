@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply from: "$rootDir/versions.gradle"
+
 android {
     compileSdk 31
 
@@ -31,14 +33,7 @@ android {
     }
 }
 
-ext {
-    retrofit = "2.9.0"
-    converter_gson = "2.4.0"
-    rxandroid = "2.1.1"
-    rxjava = "2.2.9"
-    ok_http = "4.3.1"
-    koin = "3.1.2"
-}
+
 
 dependencies {
 

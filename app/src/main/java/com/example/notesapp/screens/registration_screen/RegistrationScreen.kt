@@ -1,21 +1,19 @@
 package com.example.notesapp.screens.registration_screen
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
-
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.app.Activity
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
 import com.example.notesapp.domain.model.ModelSendDataOnServer
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
@@ -27,14 +25,14 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         bindLiveData()
 
         initRegistrationViewGroup()
-        initSystemBackButton()
+//        initSystemBackButton()
 
         view.setOnClickListener{
             hideKeyboard(requireActivity())
         }
     }
 
-    fun hideKeyboard(activity: Activity) {
+    private fun hideKeyboard(activity: Activity) {
         val view = activity.findViewById<View>(android.R.id.content)
         if (view != null) {
             val imm: InputMethodManager =
@@ -99,16 +97,16 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         }
     }
 
-    private fun initSystemBackButton() {
-        with(requireActivity()) {
-            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
-                OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    finish()
-                }
-            })
-        }
-    }
+//    private fun initSystemBackButton() {
+//        with(requireActivity()) {
+//            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+//                OnBackPressedCallback(true) {
+//                override fun handleOnBackPressed() {
+//                    finish()
+//                }
+//            })
+//        }
+//    }
 
     private fun createDialogError(messageError: String) {
         val builder = AlertDialog.Builder(activity)
