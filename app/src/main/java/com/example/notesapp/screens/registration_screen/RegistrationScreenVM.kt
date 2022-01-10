@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.notesapp.domain.model.ModelResponseServer
-import com.example.notesapp.domain.model.ModelSendDataOnServer
+import com.example.notesapp.domain.model.UserModel
 import com.example.notesapp.domain.usecases.RegistrationUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -23,10 +23,10 @@ class RegistrationScreenVM(private val registrationUseCase: RegistrationUseCase)
     fun getLiveDataModel(): LiveData<ModelResponseServer>  = liveDataModel
     fun getLiveDataUserDataEmpty(): LiveData<String> = liveDataUserDataEmpty
 
-    fun getResponseServer(modelSendDataOnServer: ModelSendDataOnServer) {
-        if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
+    fun getResponseServer(userModel: UserModel) {
+        if (userModel.username.isNotEmpty() && userModel.password.isNotEmpty()) {
            disposable.add(registrationUseCase!!
-               .execute(modelSendDataOnServer)
+               .execute(userModel)
                .subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(

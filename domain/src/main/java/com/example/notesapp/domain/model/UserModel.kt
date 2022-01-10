@@ -1,6 +1,6 @@
 package com.example.notesapp.domain.model
 
-class ModelSendDataOnServer(
+class UserModel(
     val username: String,
     val password:String) {
 }

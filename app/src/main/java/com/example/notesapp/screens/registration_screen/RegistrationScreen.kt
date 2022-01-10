@@ -12,7 +12,8 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
-import com.example.notesapp.domain.model.ModelSendDataOnServer
+import com.example.notesapp.domain.model.UserModel
+import com.example.notesapp.screens.createDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,9 +24,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
-
         initRegistrationViewGroup()
-//        initSystemBackButton()
 
         view.setOnClickListener{
             hideKeyboard(requireActivity())
@@ -46,7 +45,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             registrationViewGroup.setOnClickListener {
                 registrationViewGroup.isEnabled = false //  Кликабельность
                 changeVisibilityTwoView(isCheckedLoad = true)
-                val modelSendDataOnServer = ModelSendDataOnServer(
+                val modelSendDataOnServer = UserModel(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
                 viewModel.getResponseServer(modelSendDataOnServer)
@@ -64,14 +63,15 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
 
             getLiveDatError().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)
-                createDialogError(it)
+                createDialog(it, requireActivity())
+
                 binding.registrationViewGroup.isEnabled = true
 
             })
 
             getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)
-                createDialogError(it.toString())
+                createDialog(it.toString(), requireActivity())
                 binding.registrationViewGroup.isEnabled = true
             })
         }
@@ -95,29 +95,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             binding.progressBar.isVisible = false;
             binding.registrationBt.isVisible = true;
         }
-    }
-
-//    private fun initSystemBackButton() {
-//        with(requireActivity()) {
-//            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
-//                OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    finish()
-//                }
-//            })
-//        }
-//    }
-
-    private fun createDialogError(messageError: String) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(resources.getString(R.string.alert_dialog_title))
-        builder.setMessage(messageError)
-        builder.setPositiveButton(
-            android.R.string.ok
-        ) { dialog, which ->
-            dialog.dismiss()
-        }
-        builder.create().show()
     }
 
 }

@@ -6,5 +6,7 @@
     <string name="alert_dialog_title">Сообщение</string>
     <string name="login">login</string>
     <string name="registration">registration</string>
+    <string name="successful_login">Вход выполнен успешно.</string>
+    <string name="empty_fields">Не все поля заполнены</string>
 
 </resources>

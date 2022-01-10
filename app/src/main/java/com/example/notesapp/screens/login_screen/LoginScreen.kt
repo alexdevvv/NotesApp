@@ -4,16 +4,16 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentLoginScreenBinding
-import com.example.notesapp.domain.model.ModelSendDataOnServer
+import com.example.notesapp.domain.model.UserModel
+import com.example.notesapp.screens.createDialog
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginScreen : Fragment(R.layout.fragment_login_screen) {
 
@@ -35,10 +35,10 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
             registrationViewGroup.setOnClickListener {
                 changeVisibilityTwoView(true)
                 registrationViewGroup.isEnabled = false //  Кликабельность
-                val modelSendDataOnServer = ModelSendDataOnServer(
+                val modelSendDataOnServer = UserModel(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
-                viewModel.getDataOnServer(modelSendDataOnServer)
+                viewModel.login(modelSendDataOnServer)
             }
         }
     }
@@ -47,21 +47,20 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner,{
                 changeVisibilityView(binding.progressBar, false)
-                createDialog("Вход выполнен успешно.")
+                createDialog(getString(R.string.successful_login), requireActivity())
             })
 
 
-            getLiveDatError().observe(viewLifecycleOwner, {
+            getLiveDataError().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)
                 binding.registrationViewGroup.isEnabled = true
-                createDialog(it)
-                Log.e("xxx", it)
+                createDialog(it, requireActivity())
             })
 
             getLiveDataUserDataEmpty().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)
                 binding.registrationViewGroup.isEnabled = true
-                createDialog("Не все поля заполнены")
+                createDialog(getString(R.string.empty_fields), requireActivity())
             })
         }
     }
@@ -78,18 +77,6 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
             binding.progressBar.isVisible = false;
             binding.registrationBt.isVisible = true;
         }
-    }
-
-    private fun createDialog(message: String) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(resources.getString(R.string.alert_dialog_title))
-        builder.setMessage(message)
-        builder.setPositiveButton(
-            android.R.string.ok
-        ) { dialog, which ->
-            dialog.dismiss()
-        }
-        builder.create().show()
     }
 
     private fun hideKeyboard(activity: Activity) {

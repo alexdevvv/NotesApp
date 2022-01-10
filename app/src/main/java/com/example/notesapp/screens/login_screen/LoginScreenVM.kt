@@ -3,7 +3,7 @@ package com.example.notesapp.screens.login_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notesapp.domain.model.ModelSendDataOnServer
+import com.example.notesapp.domain.model.UserModel
 import com.example.notesapp.domain.model.UserDataResponse
 import com.example.notesapp.domain.usecases.LoginUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,15 +19,15 @@ class LoginScreenVM(var loginUseCase: LoginUseCase): ViewModel() {
     private val liveDataError = MutableLiveData<String>()
     private val liveDataUserDataEmpty = MutableLiveData<String>()
 
-    fun getLiveDatError(): LiveData<String> = liveDataError
+    fun getLiveDataError(): LiveData<String> = liveDataError
     fun getLiveDataModel(): LiveData<UserDataResponse> = liveDataModel
     fun getLiveDataUserDataEmpty(): LiveData<String> = liveDataUserDataEmpty
 
-    fun getDataOnServer(modelSendDataOnServer: ModelSendDataOnServer){
-        if (modelSendDataOnServer.username.isNotEmpty() && modelSendDataOnServer.password.isNotEmpty()) {
+    fun login(userModel: UserModel){
+        if (userModel.username.isNotEmpty() && userModel.password.isNotEmpty()) {
             disposable.add(
                 loginUseCase
-                    .execute(body = modelSendDataOnServer)
+                    .execute(body = userModel)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(

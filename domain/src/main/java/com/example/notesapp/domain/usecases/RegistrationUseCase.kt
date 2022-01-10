@@ -1,14 +1,10 @@
 package com.example.notesapp.domain.usecases
 
-
 import com.example.notesapp.domain.controller.NetworkController
-import com.example.notesapp.domain.model.ModelResponseServer
-import com.example.notesapp.domain.model.ModelSendDataOnServer
-
-import io.reactivex.Single
+import com.example.notesapp.domain.model.UserModel
 
 class RegistrationUseCase(private val networkController: NetworkController) {
-    fun execute(body: ModelSendDataOnServer): Single<ModelResponseServer> =
-        networkController.fetchDataUserRegistration(body = body)
+    fun execute(body: UserModel) =
+        networkController.registration(body = body)
 
 }
