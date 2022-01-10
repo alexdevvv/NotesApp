@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/generalScreen">
+
+    <fragment
+        android:id="@+id/registrationScreen"
+        android:name="com.example.notesapp.screens.registration_screen.RegistrationScreen"
+        android:label="fragment_registration_screen"
+        tools:layout="@layout/fragment_registration_screen" >
+        <action
+            android:id="@+id/action_registrationScreen_to_notesScreen"
+            app:destination="@id/notesScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesScreen"
+        android:name="com.example.notesapp.screens.notes_screen.NotesScreen"
+        android:label="fragment_notes_screen"
+        tools:layout="@layout/fragment_notes_screen" >
+        <action
+            android:id="@+id/action_notesScreen_to_registrationScreen"
+            app:destination="@id/registrationScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginScreen"
+        android:name="com.example.notesapp.screens.login_screen.LoginScreen"
+        android:label="fragment_login_screen"
+        tools:layout="@layout/fragment_login_screen" />
+    <fragment
+        android:id="@+id/generalScreen"
+        android:name="com.example.notesapp.screens.GeneralScreen"
+        android:label="fragment_general_screen"
+        tools:layout="@layout/fragment_general_screen" >
+        <action
+            android:id="@+id/action_generalScreen_to_registrationScreen"
+            app:destination="@id/registrationScreen" />
+        <action
+            android:id="@+id/action_generalScreen_to_loginScreen"
+            app:destination="@id/loginScreen" />
+    </fragment>
+</navigation>
