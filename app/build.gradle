@@ -86,4 +86,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin"
     implementation "io.insert-koin:koin-android-compat:$koin"
 
+    //FloatingActionButton
+    implementation 'com.android.support:design:28.0.0'
+
 }

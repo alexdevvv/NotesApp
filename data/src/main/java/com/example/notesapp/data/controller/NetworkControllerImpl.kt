@@ -11,7 +11,6 @@ class NetworkControllerImpl(private val api: NotesAPI) : NetworkController {
     override fun registration(body: UserModel): Single<com.example.notesapp.domain.model.ModelResponseServer> =
         api.getDataRegistrationUser(body = body)
 
-
     override fun login(body: UserModel): Single<UserDataResponse> =
         api.getDataLoginUser(body = body)
 

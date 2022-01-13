@@ -22,6 +22,14 @@
         <action
             android:id="@+id/action_notesScreen_to_registrationScreen"
             app:destination="@id/registrationScreen" />
+        <action
+            android:id="@+id/action_notesScreen_to_newTodoScreen"
+            app:destination="@id/newTodoScreen" >
+            <argument
+                android:name="todoId"
+                app:argType="integer"
+                />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/loginScreen"
@@ -39,5 +47,18 @@
         <action
             android:id="@+id/action_generalScreen_to_loginScreen"
             app:destination="@id/loginScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTodoScreen"
+        android:name="com.example.notesapp.screens.new_todo.NewTodoScreen"
+        android:label="fragment_new_todo_screen"
+        tools:layout="@layout/fragment_new_todo_screen" >
+        <argument
+            android:name="todoId"
+            app:argType="integer"
+            />
+        <action
+            android:id="@+id/action_newTodoScreen_to_notesScreen"
+            app:destination="@id/notesScreen" />
     </fragment>
 </navigation>
