@@ -16,18 +16,18 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initAddNewTodoButton()
+//        initAddNewTodoButton()
     }
 
-   private fun initAddNewTodoButton() {
-        binding.saveNoteBt.setOnClickListener(View.OnClickListener {
-            if (binding.addNameNoteEt.text.isNotEmpty()) {
-                viewModel.addTodo(binding.addNameNoteEt.text.toString())
-                findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
-            }
-
-        })
-    }
+//   private fun initAddNewTodoButton() {
+//        binding.saveNoteBt.setOnClickListener(View.OnClickListener {
+//            if (binding.addNameNoteEt.text.isNotEmpty()) {
+//                viewModel.addTodo(binding.addNameNoteEt.text.toString())
+//                findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
+//            }
+//
+//        })
+//    }
 
 
 }

@@ -65,6 +65,12 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin"
     implementation "io.insert-koin:koin-android-compat:$koin"
 
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
 
 
 

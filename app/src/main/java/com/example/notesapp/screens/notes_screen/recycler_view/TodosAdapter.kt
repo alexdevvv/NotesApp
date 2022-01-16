@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
+import com.example.notesapp.data.database.TodoEntity
 import com.example.notesapp.domain.model.Todo
 
-class TodosAdapter(private val todosList: ArrayList<Todo>, private val goToNewTodoScreen: () -> Unit):
+class TodosAdapter(private var todosList: List<Todo>, private val goToNewTodoScreen: () -> Unit):
     RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
     class MyViewHolder(private var itemView: View, private val goToNewTodoScreen: () -> Unit): RecyclerView.ViewHolder(itemView) {
-        fun bindView(todo: Todo){
+        fun bindView(todoEntityDb: Todo){
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
-            todoName.text = todo.title
+            todoName.text = todoEntityDb.title
 
             itemView.setOnClickListener{
                 goToNewTodoScreen()
@@ -35,5 +36,10 @@ class TodosAdapter(private val todosList: ArrayList<Todo>, private val goToNewTo
 
     override fun getItemCount(): Int {
         return todosList.size
+    }
+
+    fun updateData(list: List<Todo>){
+        todosList = list
+        notifyDataSetChanged()
     }
 }
