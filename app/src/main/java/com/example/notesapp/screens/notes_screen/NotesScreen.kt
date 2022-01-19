@@ -48,8 +48,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
 
     private fun addNewTodo() {
-        viewModel.insertTodo(Todo(this.hashCode(), "Новая заметка" + this.hashCode(), true))
-        adapter?.notifyDataSetChanged()
+        findNavController().navigate(R.id.action_notesScreen_to_newTodoScreen)
 
     }
 

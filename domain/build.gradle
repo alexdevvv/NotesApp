@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 apply from: "$rootDir/versions.gradle"
@@ -33,8 +34,6 @@ android {
     }
 }
 
-
-
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -43,10 +42,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    // Modules
-//    implementation project(path: ':data')
-
 
     //RxJava
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"

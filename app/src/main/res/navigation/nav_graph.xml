@@ -35,7 +35,11 @@
         android:id="@+id/loginScreen"
         android:name="com.example.notesapp.screens.login_screen.LoginScreen"
         android:label="fragment_login_screen"
-        tools:layout="@layout/fragment_login_screen" />
+        tools:layout="@layout/fragment_login_screen" >
+        <action
+            android:id="@+id/action_loginScreen_to_notesScreen"
+            app:destination="@id/notesScreen" />
+    </fragment>
     <fragment
         android:id="@+id/generalScreen"
         android:name="com.example.notesapp.screens.GeneralScreen"

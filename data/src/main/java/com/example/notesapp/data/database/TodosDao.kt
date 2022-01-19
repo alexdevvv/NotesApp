@@ -11,7 +11,7 @@ import io.reactivex.Single
 interface TodosDao {
 
     @Query ("SELECT * FROM TodoEntity")
-    fun getAll(): Single<ArrayList<TodoEntity>>
+    fun getAll(): Single<List<TodoEntity>>
 
     @Insert
     fun insertTodo(todoEntity: TodoEntity): Completable
