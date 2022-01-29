@@ -13,20 +13,11 @@ import io.reactivex.schedulers.Schedulers
 class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel() {
 
     private val getTodosLiveData = MutableLiveData<List<Todo>>()
-    private val liveDataInsertTodo = MutableLiveData<String>()
     private val liveDataDeleteTodo = MutableLiveData<String>()
     private val disposable = CompositeDisposable()
     fun getTodosLiveData(): LiveData<List<Todo>> = getTodosLiveData
 
-    fun insertTodo(todo: Todo) {
-        disposable.add(getFromDbUseCase.insertTodo(todo).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                liveDataInsertTodo.postValue("Заметка успешно добавлена")
-            }, {
-                liveDataInsertTodo.postValue("Произошла ошибка")
-            }))
-    }
+
 
     fun getTodosFromDb() {
         disposable.add(getFromDbUseCase.getTodosFromDb()

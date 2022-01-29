@@ -8,5 +8,6 @@
     <string name="registration">registration</string>
     <string name="successful_login">Вход выполнен успешно.</string>
     <string name="empty_fields">Не все поля заполнены</string>
+    <string name="calc">Калькулятор ОСАГО</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.notesapp.screens.notes_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -21,20 +22,28 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        bindLiveData()
         initSystemBackButton()
         initFloatingActionButton()
-        bindLiveData()
+
 //        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
+
+//    private fun initRecyclerView() {
+//        with(binding) {
+//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//            adapter = TodosAdapter(mutableListOf()) {
+//                findNavController().navigate(
+//                    R.id.action_notesScreen_to_newTodoScreen
+//                )
+//            }
+//        }
+//    }
 
     private fun initRecyclerView() {
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            adapter = TodosAdapter(mutableListOf()) {
-                findNavController().navigate(
-                    R.id.action_notesScreen_to_newTodoScreen
-                )
-            }
+            adapter = TodosAdapter(mutableListOf())
         }
     }
 
@@ -44,6 +53,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
                 adapter?.updateData(it)
             }
         )
+        viewModel.getTodosFromDb()
     }
 
 

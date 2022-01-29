@@ -1,5 +1,6 @@
 package com.example.notesapp.data.controller
 
+import com.example.notesapp.data.database.TodoEntity
 import com.example.notesapp.data.database.TodosDao
 import com.example.notesapp.domain.controller.DbController
 import com.example.notesapp.domain.model.Todo
@@ -12,10 +13,10 @@ class DbControllerImpl(private val dao: TodosDao) : DbController {
     }
 
     override fun deleteTodo(todo: Todo): Completable {
-        return dao.deleteTodo(todoEntity = com.example.notesapp.data.database.TodoEntity(todo.id, todo.title, todo.completed))
+        return dao.deleteTodo(todoEntity = TodoEntity(todo.title, todo.completed))
     }
 
     override fun insertTodo(todo: Todo): Completable {
-        return dao.insertTodo(todoEntity = com.example.notesapp.data.database.TodoEntity(todo.id, todo.title, todo.completed))
+        return dao.insertTodo(todoEntity = TodoEntity(todo.title, todo.completed))
     }
 }
