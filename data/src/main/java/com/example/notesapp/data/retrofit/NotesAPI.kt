@@ -15,3 +15,4 @@ interface NotesAPI {
     fun getDataLoginUser(@Body body: UserModel): Single<UserDataResponse>
 
 }
+

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.databinding.FragmentLoginScreenBinding
@@ -47,9 +48,8 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner,{
                 changeVisibilityView(binding.progressBar, false)
-                createDialog(getString(R.string.successful_login), requireActivity())
+                findNavController().navigate(R.id.action_loginScreen_to_notesScreen)
             })
-
 
             getLiveDataError().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)

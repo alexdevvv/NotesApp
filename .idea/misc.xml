@@ -6,9 +6,11 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/fragment_general_screen.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/fragment_login_screen.xml" value="0.10089348028984353" />
+        <entry key="app/src/main/res/layout/fragment_new_todo_screen.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/fragment_notes_screen.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/fragment_progres.xml" value="0.2784615384615385" />
         <entry key="app/src/main/res/layout/fragment_registration_screen.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/todo_item.xml" value="0.334375" />
       </map>
     </option>
   </component>

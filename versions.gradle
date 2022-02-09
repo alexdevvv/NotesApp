@@ -8,4 +8,5 @@ ext{
     ok_http = "4.3.1"
     nav_comp = "2.3.5"
     koin = "3.1.2"
+    room_version = "2.3.0"
 }
