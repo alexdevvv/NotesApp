@@ -8,4 +8,12 @@ val useCasesModule  = module {
         RegistrationUseCase(get())
     }
 
+    single<LoginUseCase> {
+        LoginUseCase(get())
+    }
+
+    single<GetFromDbUseCase> {
+        GetFromDbUseCase(get())
+    }
+
 }

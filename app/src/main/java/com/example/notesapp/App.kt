@@ -1,8 +1,10 @@
 package com.example.notesapp
 
 import android.app.Application
+import com.example.notesapp.data.controller.dbControllerModule
 import com.example.notesapp.data.retrofit.retrofitModule
 import com.example.notesapp.data.controller.networkControllerModule
+import com.example.notesapp.data.database.roomModule
 import com.example.notesapp.domain.usecases.useCasesModule
 import com.example.notesapp.screens.registration_screen.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -13,7 +15,7 @@ class App: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(retrofitModule, viewModelModule, networkControllerModule, useCasesModule))
+            modules(listOf(retrofitModule, viewModelModule, networkControllerModule, useCasesModule, roomModule, dbControllerModule))
         }
     }
 }

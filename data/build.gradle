@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
+
+apply from: "$rootDir/versions.gradle"
 
 android {
     compileSdk 31
@@ -31,14 +34,7 @@ android {
     }
 }
 
-ext {
-    retrofit = "2.9.0"
-    converter_gson = "2.4.0"
-    rxandroid = "2.1.1"
-    rxjava = "2.2.9"
-    ok_http = "4.3.1"
-    koin = "3.1.2"
-}
+
 
 dependencies {
 
@@ -70,7 +66,11 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin"
     implementation "io.insert-koin:koin-android-compat:$koin"
 
-
-
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+  //  annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
 
 }

@@ -2,13 +2,16 @@ package com.example.notesapp.data.controller
 
 import com.example.notesapp.data.retrofit.NotesAPI
 import com.example.notesapp.domain.controller.NetworkController
-import com.example.notesapp.domain.model.ModelSendDataOnServer
+import com.example.notesapp.domain.model.UserDataResponse
+import com.example.notesapp.domain.model.UserModel
 import io.reactivex.Single
 
-class NetworkControllerImpl(private val api: NotesAPI): NetworkController {
+class NetworkControllerImpl(private val api: NotesAPI) : NetworkController {
 
-    override fun fetchDataUserRegistration(body: ModelSendDataOnServer): Single<com.example.notesapp.domain.model.ModelResponseServer> {
-       return api.getDataRegistrationUser(body = body)
+    override fun registration(body: UserModel): Single<com.example.notesapp.domain.model.ModelResponseServer> =
+        api.getDataRegistrationUser(body = body)
 
-    }
+    override fun login(body: UserModel): Single<UserDataResponse> =
+        api.getDataLoginUser(body = body)
+
 }
