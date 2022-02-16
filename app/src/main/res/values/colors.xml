@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#00BFFF</color>
     <color name="gray">#DCEDEE</color>
-
+    <color name="accent_blue">#00AFFF</color>
 
 </resources>

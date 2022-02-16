@@ -9,18 +9,24 @@
     <EditText
         android:id="@+id/user_name_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="8dp"
+        android:background="@drawable/custom_blue_board"
+        android:hint="@string/enter_login"
         android:inputType="text"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:paddingStart="12dp" />
 
     <EditText
         android:id="@+id/user_password_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="8dp"
+        android:background="@drawable/custom_blue_board"
+        android:hint="@string/enter_password"
         android:inputType="textPassword"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:paddingStart="12dp" />
 
     <LinearLayout
         android:id="@+id/registration_view_group"
@@ -34,9 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:background="@color/purple_200"
+            android:background="@drawable/custom_blue_background"
             android:gravity="center"
             android:text="@string/login"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -45,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/accent_blue"
             android:visibility="invisible" />
 
     </LinearLayout>

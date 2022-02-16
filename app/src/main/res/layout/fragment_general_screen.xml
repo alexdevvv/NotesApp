@@ -8,15 +8,20 @@
     tools:context=".screens.GeneralScreen">
 
     <Button
-        android:id="@+id/parent_registration_bt"
-        android:layout_width="wrap_content"
-        android:text="@string/registration"
-        android:layout_height="wrap_content"/>
-
-    <Button
         android:id="@+id/parent_create_profile_bt"
         android:layout_width="wrap_content"
         android:text="@string/login"
+        android:background="@drawable/custom_blue_background"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/parent_registration_bt"
+        android:layout_width="wrap_content"
+        android:text="@string/registration"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_blue_background"
+        android:layout_height="wrap_content"/>
+
+
 
 </LinearLayout>
