@@ -10,10 +10,8 @@ class TodoEntity(
     val title: String,
     val completed: Boolean
     )
-
 {
     @PrimaryKey
     var id = (1..1000000).random()
-
     fun toModel() = Todo(title, completed)
 }

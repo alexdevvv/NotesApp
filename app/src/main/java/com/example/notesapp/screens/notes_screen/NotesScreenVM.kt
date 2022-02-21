@@ -17,8 +17,6 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
     private val disposable = CompositeDisposable()
     fun getTodosLiveData(): LiveData<List<Todo>> = getTodosLiveData
 
-
-
     fun getTodosFromDb() {
         disposable.add(getFromDbUseCase.getTodosFromDb()
             .subscribeOn(Schedulers.io())

@@ -10,9 +10,9 @@ import com.example.notesapp.R
 import com.example.notesapp.data.database.TodoEntity
 import com.example.notesapp.domain.model.Todo
 
-class TodosAdapter(private var todosList: List<Todo>):
-  //  , private val goToNewTodoScreen: () -> Unit
-    RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
+class TodosAdapter(): RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
+
+    var todosList: MutableList<Todo> = mutableListOf()
 
     class MyViewHolder(private var itemView: View): RecyclerView.ViewHolder(itemView) {
        // , private val goToNewTodoScreen: () -> Unit
@@ -31,7 +31,6 @@ class TodosAdapter(private var todosList: List<Todo>):
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.todo_item, parent, false)
         return MyViewHolder(itemView)
-       // , goToNewTodoScreen
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -42,9 +41,15 @@ class TodosAdapter(private var todosList: List<Todo>):
         return todosList.size
     }
 
-    fun updateData(list: List<Todo>){
+    fun updateData(list: MutableList<Todo>){
         todosList = list
         Log.e("XXX", list.size.toString())
         this.notifyDataSetChanged()
+    }
+
+    fun delete(position: Int) {
+        todosList.removeAt(position)
+        notifyItemRemoved(position)
+
     }
 }

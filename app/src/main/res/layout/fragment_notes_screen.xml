@@ -8,15 +8,6 @@
     android:orientation="vertical"
     tools:context=".screens.notes_screen.NotesScreen">
 
-    <Button
-        android:id="@+id/logout_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recycler_view" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
