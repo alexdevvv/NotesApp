@@ -22,17 +22,17 @@ import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
+class NotesScreen : Fragment(R.layout.fragment_notes_screen){
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-        deleteTodo()
-        initRecyclerView()
         bindLiveData()
+        setHasOptionsMenu(true)
+        initRecyclerView()
+        deleteTodo()
         initSystemBackButton()
         initFloatingActionButton()
 
@@ -40,8 +40,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_menu, menu)
-        Log.e("OnCreateOptionsMenu", "X")
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -53,7 +51,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         return true
     }
 
-
     private fun initRecyclerView() {
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -64,10 +61,12 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private fun bindLiveData() {
         viewModel.getTodosLiveData().observe(viewLifecycleOwner,
             {
-                adapter?.updateData(it as MutableList<Todo>)
+                adapter.updateData(it as MutableList<Todo>)
+                Log.e("it.size", it.size.toString() )
             }
         )
         viewModel.getTodosFromDb()
+
     }
 
     private fun deleteTodo() {
@@ -81,8 +80,10 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                adapter.delete(position)
+                val todo = adapter.todosList[viewHolder.adapterPosition]
+                viewModel.deleteTodo(todo)
+                Toast.makeText(requireContext(), viewModel.getDataDeleteTodo().value, Toast.LENGTH_LONG).show()
+                adapter.delete(viewHolder.adapterPosition)
 
             }
         }
@@ -93,9 +94,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
     private fun addNewTodo() {
         findNavController().navigate(R.id.action_notesScreen_to_newTodoScreen)
-
     }
-
 
     private fun initSystemBackButton() {
         with(requireActivity()) {
@@ -113,5 +112,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             addNewTodo()
         })
     }
+
 
 }

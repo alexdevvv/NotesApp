@@ -1,28 +1,21 @@
 package com.example.notesapp.screens.notes_screen.recycler_view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
-import com.example.notesapp.data.database.TodoEntity
 import com.example.notesapp.domain.model.Todo
 
-class TodosAdapter(): RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
-
+class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
     var todosList: MutableList<Todo> = mutableListOf()
 
     class MyViewHolder(private var itemView: View): RecyclerView.ViewHolder(itemView) {
-       // , private val goToNewTodoScreen: () -> Unit
         fun bindView(todoEntityDb: Todo){
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
             todoName.text = todoEntityDb.title
 
-//            itemView.setOnClickListener{
-//                goToNewTodoScreen()
-//            }
         }
     }
 
@@ -35,6 +28,7 @@ class TodosAdapter(): RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bindView(todosList[position])
+
     }
 
     override fun getItemCount(): Int {
@@ -43,8 +37,7 @@ class TodosAdapter(): RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
     fun updateData(list: MutableList<Todo>){
         todosList = list
-        Log.e("XXX", list.size.toString())
-        this.notifyDataSetChanged()
+
     }
 
     fun delete(position: Int) {

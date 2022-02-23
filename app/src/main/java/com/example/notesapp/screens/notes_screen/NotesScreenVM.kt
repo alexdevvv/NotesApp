@@ -16,6 +16,7 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
     private val liveDataDeleteTodo = MutableLiveData<String>()
     private val disposable = CompositeDisposable()
     fun getTodosLiveData(): LiveData<List<Todo>> = getTodosLiveData
+    fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
 
     fun getTodosFromDb() {
         disposable.add(getFromDbUseCase.getTodosFromDb()
@@ -25,7 +26,6 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 {
                     getTodosLiveData.postValue(it)
                 }, {
-                    Log.e("XXX", it.message.toString())
                 }
             )
         )
@@ -39,10 +39,9 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 liveDataDeleteTodo.postValue("Заметка успешно удалена")
             }, {
                 liveDataDeleteTodo.postValue("Ошибка при удалении")
-            }
+            },
             ))
     }
-
 
     override fun onCleared() {
         super.onCleared()

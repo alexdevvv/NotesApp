@@ -13,10 +13,10 @@ class DbControllerImpl(private val dao: TodosDao) : DbController {
     }
 
     override fun deleteTodo(todo: Todo): Completable {
-        return dao.deleteTodo(todoEntity = TodoEntity(todo.title, todo.completed))
+        return dao.deleteTodo(todoEntity = TodoEntity(todo.id, todo.title, todo.completed))
     }
 
     override fun insertTodo(todo: Todo): Completable {
-        return dao.insertTodo(todoEntity = TodoEntity(todo.title, todo.completed))
+        return dao.insertTodo(todoEntity = TodoEntity(todo.id, todo.title, todo.completed))
     }
 }
