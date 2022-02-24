@@ -35,7 +35,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
         deleteTodo()
         initSystemBackButton()
         initFloatingActionButton()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -62,10 +61,11 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
         viewModel.getTodosLiveData().observe(viewLifecycleOwner,
             {
                 adapter.updateData(it as MutableList<Todo>)
-                Log.e("it.size", it.size.toString() )
+
             }
         )
         viewModel.getTodosFromDb()
+
 
     }
 

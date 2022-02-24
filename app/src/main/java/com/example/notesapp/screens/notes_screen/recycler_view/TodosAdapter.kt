@@ -37,6 +37,7 @@ class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
     fun updateData(list: MutableList<Todo>){
         todosList = list
+        notifyDataSetChanged()
 
     }
 
