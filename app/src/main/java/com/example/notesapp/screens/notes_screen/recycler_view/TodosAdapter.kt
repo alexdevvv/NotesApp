@@ -8,14 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
 import com.example.notesapp.domain.model.Todo
 
-class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
-    var todosList: MutableList<Todo> = mutableListOf()
+class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>(){
 
-    class MyViewHolder(private var itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bindView(todoEntityDb: Todo){
+    var todosList: MutableList<Todo> = mutableListOf()
+//    var todoFilterList: MutableList<Todo> = mutableListOf()
+    var resultSearchList: MutableList<Todo> = mutableListOf()
+    var bufferList: MutableList<Todo> = mutableListOf()
+
+    class MyViewHolder(private var itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindView(todoEntityDb: Todo) {
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
             todoName.text = todoEntityDb.title
-
         }
     }
 
@@ -28,22 +31,65 @@ class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bindView(todosList[position])
-
     }
 
     override fun getItemCount(): Int {
         return todosList.size
     }
 
-    fun updateData(list: MutableList<Todo>){
+    fun updateData(list: MutableList<Todo>) {
         todosList = list
         notifyDataSetChanged()
-
     }
 
     fun delete(position: Int) {
         todosList.removeAt(position)
         notifyItemRemoved(position)
-
     }
+
+    fun searchInAdapter(searchText: String) {
+        bufferList = todosList
+        for (todo in todosList){
+            if (todo.title.toLowerCase().contains(searchText.toLowerCase())){
+                resultSearchList.add(todo)
+                updateData(resultSearchList)
+            }
+        }
+    }
+
+    fun clearSearch(){
+        resultSearchList.clear()
+        updateData(bufferList)
+    }
+
+//    override fun getFilter(): Filter {
+//        return object : Filter() {
+//            override fun performFiltering(constraint: CharSequence?): FilterResults {
+//                val charSearch = constraint.toString()
+//                if(charSearch.isEmpty()) {
+//                    todoFilterList = todosList
+//                } else {
+//                    var resultList: MutableList<Todo> = mutableListOf()
+//                    for (row in todosList) {
+//                        if (row.title.lowercase(Locale.ROOT)
+//                                .contains(charSearch.lowercase(Locale.ROOT))
+//                        ) {
+//                            resultList.add(row)
+//                        }
+//                    }
+//                    todoFilterList = resultList
+//                }
+//                val filterResults = FilterResults()
+//                filterResults.values = todoFilterList
+//                return filterResults
+//            }
+//
+//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+//                    todoFilterList = results?.values as MutableList<Todo>
+//                Log.e("RESULT_TODO", todoFilterList.size.toString())
+//                    notifyDataSetChanged()
+//
+//            }
+//        }
+//    }
 }

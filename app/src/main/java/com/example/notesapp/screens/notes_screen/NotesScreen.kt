@@ -2,7 +2,6 @@ package com.example.notesapp.screens.notes_screen
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -22,7 +21,7 @@ import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NotesScreen : Fragment(R.layout.fragment_notes_screen){
+class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
@@ -30,6 +29,8 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
+        search()
+        clearSearch()
         setHasOptionsMenu(true)
         initRecyclerView()
         deleteTodo()
@@ -42,7 +43,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.logout_bt){
+        if (item.itemId == R.id.logout_bt) {
             val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
             preferences.edit().remove(IS_USER_LOGGED_IN).apply()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
@@ -57,6 +58,37 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
         }
     }
 
+
+    private fun search() {
+        binding.searchBt.setOnClickListener() {
+            if (binding.searchEt.text.isNotEmpty()) {
+                adapter.searchInAdapter(binding.searchEt.text.toString())
+            }
+        }
+    }
+
+    private fun clearSearch() {
+        binding.clearTextTv.setOnClickListener {
+                adapter.clearSearch()
+                binding.searchEt.text = null
+        }
+    }
+
+
+//    private fun searchListener(){
+//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.filter.filter(newText)
+//                return false
+//            }
+//        })
+//    }
+
     private fun bindLiveData() {
         viewModel.getTodosLiveData().observe(viewLifecycleOwner,
             {
@@ -65,8 +97,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
             }
         )
         viewModel.getTodosFromDb()
-
-
     }
 
     private fun deleteTodo() {
@@ -82,7 +112,11 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val todo = adapter.todosList[viewHolder.adapterPosition]
                 viewModel.deleteTodo(todo)
-                Toast.makeText(requireContext(), viewModel.getDataDeleteTodo().value, Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    viewModel.getDataDeleteTodo().value,
+                    Toast.LENGTH_LONG
+                ).show()
                 adapter.delete(viewHolder.adapterPosition)
 
             }

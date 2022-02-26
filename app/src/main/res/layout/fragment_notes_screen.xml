@@ -8,22 +8,85 @@
     android:orientation="vertical"
     tools:context=".screens.notes_screen.NotesScreen">
 
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--        android:id="@+id/searchView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <LinearLayout
+        android:id="@+id/search_ll"
+        android:layout_width="match_parent"
+        android:weightSum="7"
+        android:layout_margin="6dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_blue_board"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="6"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_et"
+                android:layout_marginStart="6dp"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_weight="6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/clear_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_clear_24"
+                android:paddingEnd="6dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/search_bt"
+            android:backgroundTint="@color/blue"
+            android:background="@drawable/custom_blue_board"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_search_24"
+            android:text="поиск"/>
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/search_ll" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_addTodo_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
         android:layout_margin="12dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/add_button2"
+        android:src="@drawable/add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
