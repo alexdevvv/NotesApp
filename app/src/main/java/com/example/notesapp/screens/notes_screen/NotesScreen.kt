@@ -74,21 +74,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         }
     }
 
-
-//    private fun searchListener(){
-//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
-//                return false
-//            }
-//        })
-//    }
-
     private fun bindLiveData() {
         viewModel.getTodosLiveData().observe(viewLifecycleOwner,
             {

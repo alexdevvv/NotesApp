@@ -11,7 +11,6 @@ import com.example.notesapp.domain.model.Todo
 class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>(){
 
     var todosList: MutableList<Todo> = mutableListOf()
-//    var todoFilterList: MutableList<Todo> = mutableListOf()
     var resultSearchList: MutableList<Todo> = mutableListOf()
     var bufferList: MutableList<Todo> = mutableListOf()
 
@@ -61,35 +60,4 @@ class TodosAdapter: RecyclerView.Adapter<TodosAdapter.MyViewHolder>(){
         resultSearchList.clear()
         updateData(bufferList)
     }
-
-//    override fun getFilter(): Filter {
-//        return object : Filter() {
-//            override fun performFiltering(constraint: CharSequence?): FilterResults {
-//                val charSearch = constraint.toString()
-//                if(charSearch.isEmpty()) {
-//                    todoFilterList = todosList
-//                } else {
-//                    var resultList: MutableList<Todo> = mutableListOf()
-//                    for (row in todosList) {
-//                        if (row.title.lowercase(Locale.ROOT)
-//                                .contains(charSearch.lowercase(Locale.ROOT))
-//                        ) {
-//                            resultList.add(row)
-//                        }
-//                    }
-//                    todoFilterList = resultList
-//                }
-//                val filterResults = FilterResults()
-//                filterResults.values = todoFilterList
-//                return filterResults
-//            }
-//
-//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-//                    todoFilterList = results?.values as MutableList<Todo>
-//                Log.e("RESULT_TODO", todoFilterList.size.toString())
-//                    notifyDataSetChanged()
-//
-//            }
-//        }
-//    }
 }
