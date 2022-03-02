@@ -11,19 +11,22 @@ import io.reactivex.schedulers.Schedulers
 
 class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel() {
 
-    private val getTodosLiveData = MutableLiveData<List<Todo>>()
+    private val getTodosLiveData = MutableLiveData<MutableList<Todo>>()
+    private val filteredTodosLiveData = MutableLiveData<MutableList<Todo>>()
     private val liveDataDeleteTodo = MutableLiveData<String>()
     private val disposable = CompositeDisposable()
-    fun getTodosLiveData(): LiveData<List<Todo>> = getTodosLiveData
-    fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
 
-    fun getTodosFromDb() {
-        disposable.add(getFromDbUseCase.getTodosFromDb()
+    fun getTodosLiveData(): LiveData<MutableList<Todo>> = getTodosLiveData
+    fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
+    fun getFilterTodosLiveData(): LiveData<MutableList<Todo>> = filteredTodosLiveData
+
+    fun getTodosFromDb(userId: Long) {
+        disposable.add(getFromDbUseCase.getTodosFromDbForCurrentUser(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    getTodosLiveData.postValue(it)
+                    getTodosLiveData.postValue(it as MutableList<Todo>?)
                 }, {
                 }
             )
@@ -31,15 +34,33 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
     }
 
     fun deleteTodo(todo: Todo) {
-        disposable.add(getFromDbUseCase.deleteTodo(todo)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                liveDataDeleteTodo.postValue("Заметка успешно удалена")
-            }, {
-                liveDataDeleteTodo.postValue("Ошибка при удалении")
-            },
-            ))
+        disposable.add(
+            getFromDbUseCase.deleteTodo(todo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        liveDataDeleteTodo.postValue("Заметка успешно удалена")
+                    },
+                    {
+                        liveDataDeleteTodo.postValue("Ошибка при удалении")
+                    },
+                )
+        )
+    }
+
+    fun filterTodos(searchText: String) {
+        if (searchText.isNotEmpty()) {
+            getTodosLiveData.value?.let { databaseTodoList ->
+                val filterTodoList = mutableListOf<Todo>()
+                for (item in databaseTodoList) {
+                    if (item.title.lowercase().contains(searchText.lowercase())) {
+                        filterTodoList.add(item)
+                    }
+                }
+                filteredTodosLiveData.value = filterTodoList
+            }
+        }
     }
 
     override fun onCleared() {

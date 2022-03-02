@@ -7,8 +7,8 @@ import io.reactivex.Single
 @Dao
 interface TodosDao {
 
-    @Query ("SELECT * FROM TodoEntity")
-    fun getAll(): Single<List<TodoEntity>>
+    @Query ("SELECT * FROM TodoEntity WHERE userId = :userId")
+    fun getAllForCurrentUser(userId: Long): Single<List<TodoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insertTodo(todoEntity: TodoEntity): Completable

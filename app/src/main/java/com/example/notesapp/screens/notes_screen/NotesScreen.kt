@@ -2,6 +2,8 @@ package com.example.notesapp.screens.notes_screen
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.IS_USER_LOGGED_IN
+import com.example.notesapp.data.USER_ID
 import com.example.notesapp.databinding.FragmentNotesScreenBinding
 import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
@@ -25,12 +28,13 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
+    lateinit var filteredList: MutableList<Todo>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
         search()
-        clearSearch()
+        clearSearchText()
         setHasOptionsMenu(true)
         initRecyclerView()
         deleteTodo()
@@ -46,6 +50,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         if (item.itemId == R.id.logout_bt) {
             val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
             preferences.edit().remove(IS_USER_LOGGED_IN).apply()
+            preferences.edit().remove(USER_ID).apply()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
         }
         return true
@@ -58,30 +63,57 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         }
     }
 
+//    private fun search(){
+//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.filter.filter(newText)
+//                return false
+//            }
+//        })
+//    }
 
     private fun search() {
-        binding.searchBt.setOnClickListener() {
-            if (binding.searchEt.text.isNotEmpty()) {
-                adapter.searchInAdapter(binding.searchEt.text.toString())
+        binding.searchEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
-        }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(searchText: Editable?) {
+                viewModel.filterTodos(searchText.toString())
+            }
+
+        })
     }
 
-    private fun clearSearch() {
+    private fun clearSearchText() {
         binding.clearTextTv.setOnClickListener {
-                adapter.clearSearch()
-                binding.searchEt.text = null
+            binding.searchEt.text = null
+            viewModel.getTodosFromDb(
+                requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(USER_ID, -1)
+            )
         }
     }
 
     private fun bindLiveData() {
         viewModel.getTodosLiveData().observe(viewLifecycleOwner,
             {
-                adapter.updateData(it as MutableList<Todo>)
-
+                adapter.updateData(it)
             }
         )
-        viewModel.getTodosFromDb()
+        viewModel.getTodosFromDb(
+            requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(USER_ID, -1)
+        )
+
+        viewModel.getFilterTodosLiveData().observe(viewLifecycleOwner, {
+            adapter.updateData(it)
+        })
     }
 
     private fun deleteTodo() {
@@ -127,9 +159,9 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     }
 
     private fun initFloatingActionButton() {
-        binding.floatingAddTodoBt.setOnClickListener(View.OnClickListener {
+        binding.floatingAddTodoBt.setOnClickListener {
             addNewTodo()
-        })
+        }
     }
 
 

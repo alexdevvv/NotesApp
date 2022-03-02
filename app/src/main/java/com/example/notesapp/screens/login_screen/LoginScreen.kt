@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.IS_USER_LOGGED_IN
+import com.example.notesapp.data.USER_ID
 import com.example.notesapp.databinding.FragmentLoginScreenBinding
 import com.example.notesapp.domain.model.UserModel
 import com.example.notesapp.screens.createDialog
@@ -51,6 +52,7 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
                 changeVisibilityView(binding.progressBar, false)
                 val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
                 preferences.edit().putBoolean(IS_USER_LOGGED_IN, true).apply()
+                preferences.edit().putLong(USER_ID, it.id).apply()
                 findNavController().navigate(R.id.action_loginScreen_to_notesScreen)
             })
 

@@ -7,8 +7,8 @@ import io.reactivex.Single
 
 class GetFromDbUseCase(private val dbController: DbController) {
 
-    fun getTodosFromDb(): Single<List<Todo>> {
-        return dbController.getTodos()
+    fun getTodosFromDbForCurrentUser(userId: Long): Single<List<Todo>> {
+        return dbController.getTodosForCurrentUser(userId = userId)
     }
 
     fun deleteTodo(todo: Todo): Completable {
