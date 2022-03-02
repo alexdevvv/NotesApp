@@ -20,7 +20,6 @@ import com.example.notesapp.R
 import com.example.notesapp.data.IS_USER_LOGGED_IN
 import com.example.notesapp.data.USER_ID
 import com.example.notesapp.databinding.FragmentNotesScreenBinding
-import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +27,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
-    lateinit var filteredList: MutableList<Todo>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,20 +60,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             recyclerView.adapter = adapter
         }
     }
-
-//    private fun search(){
-//        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
-//                return false
-//            }
-//        })
-//    }
 
     private fun search() {
         binding.searchEt.addTextChangedListener(object : TextWatcher {
@@ -123,7 +107,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                TODO("Not yet implemented")
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
