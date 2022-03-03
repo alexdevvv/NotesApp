@@ -86,18 +86,20 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     }
 
     private fun bindLiveData() {
-        viewModel.getTodosLiveData().observe(viewLifecycleOwner,
-            {
-                adapter.updateData(it)
-            }
-        )
-        viewModel.getTodosFromDb(
-            requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(USER_ID, -1)
-        )
+        with(viewModel) {
+            getTodosLiveData().observe(viewLifecycleOwner,
+                {
+                    adapter.updateData(it)
+                })
 
-        viewModel.getFilterTodosLiveData().observe(viewLifecycleOwner, {
-            adapter.updateData(it)
-        })
+            getTodosFromDb(
+                requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(USER_ID, -1)
+            )
+
+            getFilterTodosLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it)
+            })
+        }
     }
 
     private fun deleteTodo() {
