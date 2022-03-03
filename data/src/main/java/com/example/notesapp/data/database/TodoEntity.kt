@@ -8,9 +8,10 @@ import com.example.notesapp.domain.model.Todo
 class TodoEntity(
     @PrimaryKey
     val id: Int,
+    val userId: Long,
     val title: String,
     val completed: Boolean
-    )
-{
-    fun toModel() = Todo(id, title, completed)
+) {
+
+    fun toModel() = Todo(id = id, userId = userId, title = title, completed = completed)
 }

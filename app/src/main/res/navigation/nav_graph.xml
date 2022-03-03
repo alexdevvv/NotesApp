@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/generalScreen">
+    app:startDestination="@id/initScreen">
 
     <fragment
         android:id="@+id/registrationScreen"
@@ -30,6 +30,9 @@
                 app:argType="integer"
                 />
         </action>
+        <action
+            android:id="@+id/action_notesScreen_to_generalScreen"
+            app:destination="@id/generalScreen" />
     </fragment>
     <fragment
         android:id="@+id/loginScreen"
@@ -63,6 +66,18 @@
             />
         <action
             android:id="@+id/action_newTodoScreen_to_notesScreen"
+            app:destination="@id/notesScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/initScreen"
+        android:name="com.example.notesapp.screens.init_screen.InitScreen"
+        android:label="fragment_init_screen"
+        tools:layout="@layout/fragment_init_screen" >
+        <action
+            android:id="@+id/action_initScreen_to_generalScreen"
+            app:destination="@id/generalScreen" />
+        <action
+            android:id="@+id/action_initScreen_to_notesScreen"
             app:destination="@id/notesScreen" />
     </fragment>
 </navigation>

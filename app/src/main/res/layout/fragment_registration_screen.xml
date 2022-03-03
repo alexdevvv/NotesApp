@@ -9,16 +9,22 @@
     <EditText
         android:id="@+id/user_name_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:maxLines="1"
+        android:paddingStart="12dp"
+        android:hint="Введите имя пользователя"
+        android:background="@drawable/custom_blue_board"
         android:inputType="text"
         android:layout_margin="8dp"/>
 
     <EditText
         android:id="@+id/user_password_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:maxLines="1"
+        android:hint="Введие пароль"
+        android:paddingStart="12dp"
+        android:background="@drawable/custom_blue_board"
         android:inputType="textPassword"
         android:layout_margin="8dp"/>
 
@@ -34,11 +40,12 @@
             android:id="@+id/registration_bt"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/blue"
+            android:background="@drawable/custom_blue_background"
             android:textStyle="bold"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="@string/registration_button"
+            android:textColor="@color/white"
+            android:text="@string/registration"
             android:layout_margin="8dp"/>
 
         <ProgressBar

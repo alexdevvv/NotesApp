@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
+import com.example.notesapp.data.IS_USER_LOGGED_IN
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
 import com.example.notesapp.domain.model.UserModel
 import com.example.notesapp.screens.createDialog
@@ -57,6 +58,8 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner, {
                 changeVisibilityView(binding.progressBar, false)
+                val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                preferences.edit().putBoolean(IS_USER_LOGGED_IN, true).apply()
                 stepOnFragmentNotesScreen()
 
             })
@@ -64,7 +67,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             getLiveDatError().observe(viewLifecycleOwner, {
                 changeVisibilityTwoView(isCheckedLoad = false)
                 createDialog(it, requireActivity())
-
                 binding.registrationViewGroup.isEnabled = true
 
             })

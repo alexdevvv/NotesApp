@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface DbController {
-    fun getTodos(): Single<List<Todo>>
+    fun getTodosForCurrentUser(userId: Long): Single<List<Todo>>
 
     fun deleteTodo(todo: Todo): Completable
 
