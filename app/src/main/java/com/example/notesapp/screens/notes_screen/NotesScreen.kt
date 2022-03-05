@@ -1,10 +1,9 @@
 package com.example.notesapp.screens.notes_screen
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -19,15 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.PreferencesManager
-import com.example.notesapp.data.USER_ID
 import com.example.notesapp.databinding.FragmentNotesScreenBinding
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
+    private val preferences: PreferencesManager by inject()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,10 +48,8 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.logout_bt) {
-
-            PreferencesManager(requireActivity()).deleteValueIsUserLoggedIn()
-            PreferencesManager(requireActivity()).deleteUserIdFromPref()
-
+            preferences.putValueIsUserLoggedIn(false)
+            preferences.deleteUserIdFromPref()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
         }
         return true
@@ -83,7 +81,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         binding.clearTextTv.setOnClickListener {
             binding.searchEt.text = null
             viewModel.getTodosFromDb(
-                requireActivity().getPreferences(Context.MODE_PRIVATE).getLong(USER_ID, -1)
+                preferences.getUserIdFromPref()
             )
         }
     }
@@ -93,13 +91,11 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             getTodosLiveData().observe(viewLifecycleOwner,
                 {
                     adapter.updateData(it)
+                    Log.e("XXX", it.size.toString())
                 })
-
             getTodosFromDb(
-                PreferencesManager(requireActivity()).getUserIdFromPref()
-
+                preferences.getUserIdFromPref()
             )
-
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
             })

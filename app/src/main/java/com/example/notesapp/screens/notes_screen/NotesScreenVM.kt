@@ -60,6 +60,8 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 }
                 filteredTodosLiveData.value = filterTodoList
             }
+        } else {
+            filteredTodosLiveData.value = getTodosLiveData.value
         }
     }
 
