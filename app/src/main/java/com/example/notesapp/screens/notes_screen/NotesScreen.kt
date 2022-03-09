@@ -99,6 +99,14 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
             })
+
+            getDataDeleteTodo().observe(viewLifecycleOwner,{
+                Toast.makeText(
+                    requireContext(),
+                    it,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
         }
     }
 
@@ -115,11 +123,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val todo = adapter.todosList[viewHolder.adapterPosition]
                 viewModel.deleteTodo(todo)
-                Toast.makeText(
-                    requireContext(),
-                    viewModel.getDataDeleteTodo().value,
-                    Toast.LENGTH_LONG
-                ).show()
                 adapter.delete(viewHolder.adapterPosition)
 
             }
