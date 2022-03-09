@@ -27,7 +27,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
         initRegistrationViewGroup()
-
         view.setOnClickListener{
             hideKeyboard(requireActivity())
         }

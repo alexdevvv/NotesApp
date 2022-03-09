@@ -1,11 +1,8 @@
 package com.example.notesapp.screens.notes_screen.recycler_view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
@@ -43,14 +40,15 @@ class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
         return todosList.size
     }
 
-    fun updateData(list: MutableList<Todo>) {
-        todosList = list
+    fun updateData(list: MutableList<Todo>?) {
+        if (list != null) {
+            todosList = list
+        }
         notifyDataSetChanged()
     }
 
     fun delete(position: Int) {
         todosList.removeAt(position)
-        notifyItemRemoved(position)
     }
 
 }

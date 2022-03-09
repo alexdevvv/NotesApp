@@ -1,13 +1,14 @@
 package com.example.notesapp.screens.notes_screen
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -28,7 +29,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
     private val preferences: PreferencesManager by inject()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,27 +80,38 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private fun clearSearchText() {
         binding.clearTextTv.setOnClickListener {
             binding.searchEt.text = null
+            hideKeyboard()
+            binding.searchEt.clearFocus()
             viewModel.getTodosFromDb(
                 preferences.getUserIdFromPref()
+
             )
         }
     }
 
+    private fun hideKeyboard() {
+        val inp: InputMethodManager =
+            requireActivity()?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inp.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+
+    }
+
     private fun bindLiveData() {
         with(viewModel) {
-            getTodosLiveData().observe(viewLifecycleOwner,
-                {
-                    adapter.updateData(it)
-                    Log.e("XXX", it.size.toString())
-                })
+            getTodosLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it)
+            })
+
             getTodosFromDb(
                 preferences.getUserIdFromPref()
             )
+
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
             })
 
-            getDataDeleteTodo().observe(viewLifecycleOwner,{
+            getDataDeleteTodo().observe(viewLifecycleOwner, {
+                adapter.updateData(viewModel.getTodosLiveData().value)
                 Toast.makeText(
                     requireContext(),
                     it,
