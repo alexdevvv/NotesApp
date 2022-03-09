@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/note_screen_layoute"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:id="@+id/note_screen_layoute"
     tools:context=".screens.notes_screen.NotesScreen">
 
     <LinearLayout
@@ -50,22 +49,6 @@
                 android:src="@drawable/ic_baseline_clear_24" />
 
         </LinearLayout>
-
-<!--        <Button-->
-<!--            android:id="@+id/search_bt"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_weight="1"-->
-<!--            android:background="@drawable/custom_blue_board"-->
-<!--            android:backgroundTint="@color/blue"-->
-<!--            android:src="@drawable/ic_baseline_search_24"-->
-<!--            android:text="поиск" />-->
-
-<!--        <SearchView-->
-<!--            android:id="@+id/search_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60dp"/>-->
 
 
     </LinearLayout>
