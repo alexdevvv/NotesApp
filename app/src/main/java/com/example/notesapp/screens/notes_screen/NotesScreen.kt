@@ -29,7 +29,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
     private var adapter: TodosAdapter = TodosAdapter()
     private val preferences: PreferencesManager by inject()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindLiveData()
@@ -88,19 +87,20 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
     private fun bindLiveData() {
         with(viewModel) {
-            getTodosLiveData().observe(viewLifecycleOwner,
-                {
+            getTodosLiveData().observe(viewLifecycleOwner, {
                     adapter.updateData(it)
-                    Log.e("XXX", it.size.toString())
                 })
+
             getTodosFromDb(
                 preferences.getUserIdFromPref()
             )
+
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
             })
 
             getDataDeleteTodo().observe(viewLifecycleOwner,{
+                adapter.updateData(viewModel.getTodosLiveData().value)
                 Toast.makeText(
                     requireContext(),
                     it,
