@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -32,6 +33,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.init(preferences.getUserIdFromPref())
         bindLiveData()
         search()
         clearSearchText()
@@ -83,15 +85,13 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             hideKeyboard()
             binding.searchEt.clearFocus()
             viewModel.getTodosFromDb(
-                preferences.getUserIdFromPref()
-
             )
         }
     }
 
     private fun hideKeyboard() {
         val inp: InputMethodManager =
-            requireActivity()?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inp.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
     }
@@ -102,16 +102,13 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
                 adapter.updateData(it)
             })
 
-            getTodosFromDb(
-                preferences.getUserIdFromPref()
-            )
+            getTodosFromDb()
 
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
             })
 
             getDataDeleteTodo().observe(viewLifecycleOwner, {
-                adapter.updateData(viewModel.getTodosLiveData().value)
                 Toast.makeText(
                     requireContext(),
                     it,
@@ -132,10 +129,8 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val todo = adapter.todosList[viewHolder.adapterPosition]
-                viewModel.deleteTodo(todo)
-                adapter.delete(viewHolder.adapterPosition)
-
+                val todo = viewModel.getTodosLiveData().value?.get(viewHolder.adapterPosition)
+                todo?.let { viewModel.deleteTodo(it) }
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
@@ -164,4 +159,14 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("onDestroy", "onDestroy")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("onDestroyView", "onDestroyView")
+    }
 }

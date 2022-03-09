@@ -11,14 +11,9 @@ import java.util.*
 
 class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
-    var todosList = mutableListOf<Todo>()
-    var todoFilterList: MutableList<Todo> = mutableListOf()
+    private var todosList = mutableListOf<Todo>()
 
-    init {
-        todoFilterList = todosList
-    }
-
-    class MyViewHolder(private var itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(todoEntityDb: Todo) {
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
             todoName.text = todoEntityDb.title
@@ -45,10 +40,6 @@ class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
             todosList = list
         }
         notifyDataSetChanged()
-    }
-
-    fun delete(position: Int) {
-        todosList.removeAt(position)
     }
 
 }
