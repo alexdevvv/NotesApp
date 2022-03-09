@@ -1,9 +1,9 @@
 package com.example.notesapp.screens.login_screen
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -11,16 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
-import com.example.notesapp.data.IS_USER_LOGGED_IN
+import com.example.notesapp.data.PreferencesManager
 import com.example.notesapp.databinding.FragmentLoginScreenBinding
 import com.example.notesapp.domain.model.UserModel
 import com.example.notesapp.screens.createDialog
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginScreen : Fragment(R.layout.fragment_login_screen) {
+class LoginScreen: Fragment(R.layout.fragment_login_screen) {
 
     private val binding: FragmentLoginScreenBinding by viewBinding()
     private val viewModel: LoginScreenVM by viewModel()
+    private val preferences: PreferencesManager by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,8 +51,9 @@ class LoginScreen : Fragment(R.layout.fragment_login_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner,{
                 changeVisibilityView(binding.progressBar, false)
-                val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-                preferences.edit().putBoolean(IS_USER_LOGGED_IN, true).apply()
+                preferences.putValueIsUserLoggedIn(true)
+                preferences.putUserIdInPref(it.id)
+                Log.e("save_ID", it.id.toString())
                 findNavController().navigate(R.id.action_loginScreen_to_notesScreen)
             })
 

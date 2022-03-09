@@ -6,13 +6,12 @@ import com.example.notesapp.domain.model.Todo
 
 @Entity
 class TodoEntity(
+    @PrimaryKey
+    val id: Int,
+    val userId: Long,
     val title: String,
     val completed: Boolean
-    )
+) {
 
-{
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = -1
-
-    fun toModel() = Todo(title, completed)
+    fun toModel() = Todo(id = id, userId = userId, title = title, completed = completed)
 }

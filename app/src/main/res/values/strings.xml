@@ -8,5 +8,6 @@
     <string name="enter_login">Введите логин</string>
     <string name="enter_password">Введите пароль</string>
     <string name="notes_app">Notes App</string>
+    <string name="search">поиск</string>
 
 </resources>

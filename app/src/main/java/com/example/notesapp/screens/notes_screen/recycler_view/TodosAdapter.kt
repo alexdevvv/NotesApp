@@ -4,25 +4,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
-import com.example.notesapp.data.database.TodoEntity
 import com.example.notesapp.domain.model.Todo
+import java.util.*
 
-class TodosAdapter(private var todosList: List<Todo>):
-  //  , private val goToNewTodoScreen: () -> Unit
-    RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
+class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
-    class MyViewHolder(private var itemView: View): RecyclerView.ViewHolder(itemView) {
-       // , private val goToNewTodoScreen: () -> Unit
-        fun bindView(todoEntityDb: Todo){
+    var todosList = mutableListOf<Todo>()
+    var todoFilterList: MutableList<Todo> = mutableListOf()
+
+    init {
+        todoFilterList = todosList
+    }
+
+    class MyViewHolder(private var itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindView(todoEntityDb: Todo) {
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
             todoName.text = todoEntityDb.title
-
-//            itemView.setOnClickListener{
-//                goToNewTodoScreen()
-//            }
         }
     }
 
@@ -31,7 +33,6 @@ class TodosAdapter(private var todosList: List<Todo>):
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.todo_item, parent, false)
         return MyViewHolder(itemView)
-       // , goToNewTodoScreen
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -42,9 +43,14 @@ class TodosAdapter(private var todosList: List<Todo>):
         return todosList.size
     }
 
-    fun updateData(list: List<Todo>){
+    fun updateData(list: MutableList<Todo>) {
         todosList = list
-        Log.e("XXX", list.size.toString())
-        this.notifyDataSetChanged()
+        notifyDataSetChanged()
     }
+
+    fun delete(position: Int) {
+        todosList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
 }
