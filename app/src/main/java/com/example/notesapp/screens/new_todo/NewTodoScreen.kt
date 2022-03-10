@@ -37,12 +37,15 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
         })
     }
 
-    private fun initSystemBackButton(){
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
-            }
-        })
+    private fun initSystemBackButton() {
+        with(requireActivity()) {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+                OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
+                }
+            })
+        }
     }
 
 }
