@@ -11,6 +11,8 @@ import io.reactivex.schedulers.Schedulers
 
 class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel() {
 
+    private var userId: Long? = null
+
     private val getTodosLiveData = MutableLiveData<MutableList<Todo>>()
     private val filteredTodosLiveData = MutableLiveData<MutableList<Todo>>()
     private val liveDataDeleteTodo = MutableLiveData<String>()
@@ -20,8 +22,12 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
     fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
     fun getFilterTodosLiveData(): LiveData<MutableList<Todo>> = filteredTodosLiveData
 
-    fun getTodosFromDb(userId: Long) {
-        disposable.add(getFromDbUseCase.getTodosFromDbForCurrentUser(userId)
+     fun init(userId: Long){
+         this.userId = userId
+     }
+
+    fun getTodosFromDb() {
+        disposable.add(getFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -41,6 +47,8 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 .subscribe(
                     {
                         liveDataDeleteTodo.postValue("Заметка успешно удалена")
+                        getTodosFromDb()
+
                     },
                     {
                         liveDataDeleteTodo.postValue("Ошибка при удалении")
@@ -60,6 +68,8 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 }
                 filteredTodosLiveData.value = filterTodoList
             }
+        } else {
+            filteredTodosLiveData.value = getTodosLiveData.value
         }
     }
 
