@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -25,7 +24,7 @@ import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
+class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorActionListener {
     private val binding: FragmentNotesScreenBinding by viewBinding()
     private val viewModel: NotesScreenVM by viewModel()
     private var adapter: TodosAdapter = TodosAdapter()
@@ -64,6 +63,28 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         }
     }
 
+    private fun bindLiveData() {
+        with(viewModel) {
+            getTodosLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it)
+            })
+
+            getTodosFromDb()
+
+            getFilterTodosLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it)
+            })
+
+            getDataDeleteTodo().observe(viewLifecycleOwner, {
+                Toast.makeText(
+                    requireContext(),
+                    it,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+        }
+    }
+
     private fun search() {
         binding.searchEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -89,33 +110,18 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         }
     }
 
+    override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+        if (p1 == EditorInfo.IME_ACTION_DONE) {
+            hideKeyboard()
+        }
+        return true
+    }
+
     private fun hideKeyboard() {
         val inp: InputMethodManager =
             requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inp.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
-    }
-
-    private fun bindLiveData() {
-        with(viewModel) {
-            getTodosLiveData().observe(viewLifecycleOwner, {
-                adapter.updateData(it)
-            })
-
-            getTodosFromDb()
-
-            getFilterTodosLiveData().observe(viewLifecycleOwner, {
-                adapter.updateData(it)
-            })
-
-            getDataDeleteTodo().observe(viewLifecycleOwner, {
-                Toast.makeText(
-                    requireContext(),
-                    it,
-                    Toast.LENGTH_LONG
-                ).show()
-            })
-        }
     }
 
     private fun deleteTodo() {
@@ -157,16 +163,5 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen) {
         binding.floatingAddTodoBt.setOnClickListener {
             addNewTodo()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("onDestroy", "onDestroy")
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e("onDestroyView", "onDestroyView")
     }
 }
