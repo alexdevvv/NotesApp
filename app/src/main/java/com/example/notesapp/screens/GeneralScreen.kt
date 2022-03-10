@@ -3,6 +3,7 @@ package com.example.notesapp.screens
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
@@ -15,6 +16,7 @@ class GeneralScreen : Fragment(R.layout.fragment_general_screen) {
         super.onViewCreated(view, savedInstanceState)
         stepToRegistrationScreenBt()
         stepToLoginScreenBt()
+        initSystemBackButton()
     }
     private fun stepToRegistrationScreenBt() {
         binding.parentRegistrationBt.setOnClickListener {
@@ -25,6 +27,18 @@ class GeneralScreen : Fragment(R.layout.fragment_general_screen) {
     private fun stepToLoginScreenBt() {
         binding.parentCreateProfileBt.setOnClickListener {
             findNavController().navigate(R.id.action_generalScreen_to_loginScreen)
+        }
+    }
+
+    private fun initSystemBackButton() {
+        with(requireActivity()) {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+                OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                    finish()
+                }
+            })
         }
     }
 
