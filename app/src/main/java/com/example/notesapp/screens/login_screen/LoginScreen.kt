@@ -93,6 +93,4 @@ class LoginScreen: Fragment(R.layout.fragment_login_screen) {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
-
-
 }
