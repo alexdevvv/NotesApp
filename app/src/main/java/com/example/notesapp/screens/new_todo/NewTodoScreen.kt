@@ -2,6 +2,7 @@ package com.example.notesapp.screens.new_todo
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -20,6 +21,7 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAddNewTodoButton()
+        initSystemBackButton()
     }
 
     private fun initAddNewTodoButton() {
@@ -30,6 +32,14 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
                         preferences.getUserIdFromPref(), binding.addNameNoteEt.text.toString(), true
                     )
                 )
+                findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
+            }
+        })
+    }
+
+    private fun initSystemBackButton(){
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)
             }
         })
