@@ -2,13 +2,16 @@ package com.example.notesapp.screens.new_todo
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.PreferencesManager
 import com.example.notesapp.databinding.FragmentNewTodoScreenBinding
+import com.example.notesapp.domain.model.ModelSendNewTodoToServer
 import com.example.notesapp.domain.model.Todo
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,9 +30,18 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
     private fun initAddNewTodoButton() {
         binding.saveNoteBt.setOnClickListener(View.OnClickListener {
             if (binding.addNameNoteEt.text.isNotEmpty()) {
-                viewModel.insertTodo(
+                viewModel.insertTodoInDatabase(
                     Todo(
-                        preferences.getUserIdFromPref(), binding.addNameNoteEt.text.toString(), true
+                        preferences.getUserIdFromPref(),
+                        binding.addNameNoteEt.text.toString(),
+                        true
+                    )
+                )
+
+                viewModel.sendNewTodoOnServer(
+                    ModelSendNewTodoToServer(
+                        binding.addNameNoteEt.text.toString(),
+                        true
                     )
                 )
                 findNavController().navigate(R.id.action_newTodoScreen_to_notesScreen)

@@ -1,11 +1,11 @@
 package com.example.notesapp.domain.controller
-import com.example.notesapp.domain.model.ModelResponseServer
-import com.example.notesapp.domain.model.UserModel
-import com.example.notesapp.domain.model.UserDataResponse
+import com.example.notesapp.domain.model.*
 import io.reactivex.Single
 
 interface NetworkController {
-    fun registration(body: UserModel): Single<ModelResponseServer>
+    fun registration(body: ModelSendUserDataToServer): Single<ModelUserRegistrationResponse>
 
-    fun login(body: UserModel): Single<UserDataResponse>
+    fun login(body: ModelSendUserDataToServer): Single<ModelUserLoginResponse>
+
+    fun addNewTodo(body: ModelSendNewTodoToServer): Single<ModelGetTodoFromServer>
 }

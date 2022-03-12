@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
 import com.example.notesapp.domain.model.Todo
-import java.util.*
 
 class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 

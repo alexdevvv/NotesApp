@@ -15,4 +15,8 @@ val useCasesModule  = module {
         GetFromDbUseCase(get())
     }
 
+    single<AddNewTodoUseCase> {
+        AddNewTodoUseCase(get())
+    }
+
 }
