@@ -13,7 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.PreferencesManager
 import com.example.notesapp.databinding.FragmentLoginScreenBinding
-import com.example.notesapp.domain.model.UserModel
+import com.example.notesapp.domain.model.ModelSendUserDataToServer
 import com.example.notesapp.screens.createDialog
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,7 +39,7 @@ class LoginScreen: Fragment(R.layout.fragment_login_screen) {
             registrationViewGroup.setOnClickListener {
                 changeVisibilityTwoView(true)
                 registrationViewGroup.isEnabled = false //  Кликабельность
-                val modelSendDataOnServer = UserModel(
+                val modelSendDataOnServer = ModelSendUserDataToServer(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
                 viewModel.login(modelSendDataOnServer)

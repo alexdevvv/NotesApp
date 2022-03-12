@@ -3,8 +3,8 @@ package com.example.notesapp.screens.login_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notesapp.domain.model.UserModel
-import com.example.notesapp.domain.model.UserDataResponse
+import com.example.notesapp.domain.model.ModelSendUserDataToServer
+import com.example.notesapp.domain.model.ModelUserLoginResponse
 import com.example.notesapp.domain.usecases.LoginUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,19 +15,19 @@ import retrofit2.HttpException
 class LoginScreenVM(var loginUseCase: LoginUseCase): ViewModel() {
 
     private val disposable = CompositeDisposable()
-    private val liveDataModel = MutableLiveData<UserDataResponse>()
+    private val liveDataModel = MutableLiveData<ModelUserLoginResponse>()
     private val liveDataError = MutableLiveData<String>()
     private val liveDataUserDataEmpty = MutableLiveData<String>()
 
     fun getLiveDataError(): LiveData<String> = liveDataError
-    fun getLiveDataModel(): LiveData<UserDataResponse> = liveDataModel
+    fun getLiveDataModel(): LiveData<ModelUserLoginResponse> = liveDataModel
     fun getLiveDataUserDataEmpty(): LiveData<String> = liveDataUserDataEmpty
 
-    fun login(userModel: UserModel){
-        if (userModel.username.isNotEmpty() && userModel.password.isNotEmpty()) {
+    fun login(modelSendUserDataToServer: ModelSendUserDataToServer){
+        if (modelSendUserDataToServer.username.isNotEmpty() && modelSendUserDataToServer.password.isNotEmpty()) {
             disposable.add(
                 loginUseCase
-                    .execute(body = userModel)
+                    .execute(body = modelSendUserDataToServer)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
