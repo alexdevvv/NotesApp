@@ -8,4 +8,6 @@ interface NetworkController {
     fun login(body: ModelSendUserDataToServer): Single<ModelUserLoginResponse>
 
     fun addNewTodo(body: ModelSendNewTodoToServer): Single<ModelGetTodoFromServer>
+
+    fun getTodosFromServer(): Single<ModelUserLoginResponse>
 }

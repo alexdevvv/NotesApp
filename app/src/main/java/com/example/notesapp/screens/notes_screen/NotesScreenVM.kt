@@ -4,36 +4,57 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.notesapp.domain.model.Todo
-import com.example.notesapp.domain.usecases.GetFromDbUseCase
+import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
+import com.example.notesapp.domain.usecases.GetDataFromServerUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel() {
+class NotesScreenVM(
+    private val getDataFromDbUseCase: GetDataFromDbUseCase,
+    private val getDataFromServerUseCase: GetDataFromServerUseCase
+) : ViewModel() {
 
     private var userId: Long? = null
 
-    private val getTodosLiveData = MutableLiveData<MutableList<Todo>>()
+    private val getTodosFromBDLiveData = MutableLiveData<MutableList<Todo>>()
     private val filteredTodosLiveData = MutableLiveData<MutableList<Todo>>()
-    private val liveDataDeleteTodo = MutableLiveData<String>()
+    private val deleteTodoLiveData = MutableLiveData<String>()
+    private val todosFromServerLiveData = MutableLiveData<List<Todo>>()
     private val disposable = CompositeDisposable()
 
-    fun getTodosLiveData(): LiveData<MutableList<Todo>> = getTodosLiveData
-    fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
+    fun getTodosFromBDLiveData(): LiveData<MutableList<Todo>> = getTodosFromBDLiveData
+    fun getDataDeleteTodo(): LiveData<String> = deleteTodoLiveData
     fun getFilterTodosLiveData(): LiveData<MutableList<Todo>> = filteredTodosLiveData
+    fun getTodosFromServerLiveData(): LiveData<List<Todo>> = todosFromServerLiveData
 
-     fun init(userId: Long){
-         this.userId = userId
-     }
+    fun init(userId: Long) {
+        this.userId = userId
+        getTodosFromServer()
+    }
 
     fun getTodosFromDb() {
-        disposable.add(getFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
+        disposable.add(getDataFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    getTodosLiveData.postValue(it as MutableList<Todo>?)
+                    getTodosFromBDLiveData.postValue(it as MutableList<Todo>?)
                 }, {
+                }
+            )
+        )
+    }
+
+    fun getTodosFromServer() {
+        disposable.add(getDataFromServerUseCase.execute()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    todosFromServerLiveData.postValue(it.todos)
+                }, {
+                    getTodosFromDb()
                 }
             )
         )
@@ -41,17 +62,17 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
 
     fun deleteTodo(todo: Todo) {
         disposable.add(
-            getFromDbUseCase.deleteTodo(todo)
+            getDataFromDbUseCase.deleteTodo(todo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        liveDataDeleteTodo.postValue("Заметка успешно удалена")
+                        deleteTodoLiveData.postValue("Заметка успешно удалена")
                         getTodosFromDb()
 
                     },
                     {
-                        liveDataDeleteTodo.postValue("Ошибка при удалении")
+                        deleteTodoLiveData.postValue("Ошибка при удалении")
                     },
                 )
         )
@@ -59,7 +80,7 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
 
     fun filterTodos(searchText: String) {
         if (searchText.isNotEmpty()) {
-            getTodosLiveData.value?.let { databaseTodoList ->
+            getTodosFromBDLiveData.value?.let { databaseTodoList ->
                 val filterTodoList = mutableListOf<Todo>()
                 for (item in databaseTodoList) {
                     if (item.title.lowercase().contains(searchText.lowercase())) {
@@ -69,7 +90,7 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 filteredTodosLiveData.value = filterTodoList
             }
         } else {
-            filteredTodosLiveData.value = getTodosLiveData.value
+            filteredTodosLiveData.value = getTodosFromBDLiveData.value
         }
     }
 

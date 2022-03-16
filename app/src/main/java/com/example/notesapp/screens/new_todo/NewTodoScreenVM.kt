@@ -8,13 +8,13 @@ import com.example.notesapp.domain.model.ModelGetTodoFromServer
 import com.example.notesapp.domain.model.ModelSendNewTodoToServer
 import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.domain.usecases.AddNewTodoUseCase
-import com.example.notesapp.domain.usecases.GetFromDbUseCase
+import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class NewTodoScreenVM(
-    private val getFromDbUseCase: GetFromDbUseCase,
+    private val getDataFromDbUseCase: GetDataFromDbUseCase,
     private val addNewTodoUseCase: AddNewTodoUseCase
 ) : ViewModel() {
 
@@ -22,7 +22,7 @@ class NewTodoScreenVM(
 
     fun insertTodoInDatabase(todo: Todo) {
         disposable.add(
-            getFromDbUseCase.insertTodo(todo)
+            getDataFromDbUseCase.insertTodo(todo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

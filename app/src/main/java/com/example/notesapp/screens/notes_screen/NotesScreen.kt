@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -20,6 +19,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.PreferencesManager
 import com.example.notesapp.databinding.FragmentNotesScreenBinding
+import com.example.notesapp.domain.model.Todo
 import com.example.notesapp.screens.notes_screen.recycler_view.TodosAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -65,11 +65,13 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
 
     private fun bindLiveData() {
         with(viewModel) {
-            getTodosLiveData().observe(viewLifecycleOwner, {
-                adapter.updateData(it)
+            getTodosFromServerLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it  as MutableList<Todo>)
             })
 
-            getTodosFromDb()
+            getTodosFromBDLiveData().observe(viewLifecycleOwner, {
+                adapter.updateData(it)
+            })
 
             getFilterTodosLiveData().observe(viewLifecycleOwner, {
                 adapter.updateData(it)
@@ -135,7 +137,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val todo = viewModel.getTodosLiveData().value?.get(viewHolder.adapterPosition)
+                val todo = viewModel.getTodosFromBDLiveData().value?.get(viewHolder.adapterPosition)
                 todo?.let { viewModel.deleteTodo(it) }
             }
         }

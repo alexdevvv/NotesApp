@@ -5,7 +5,7 @@ import com.example.notesapp.domain.model.Todo
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class GetFromDbUseCase(private val dbController: DbController) {
+class GetDataFromDbUseCase(private val dbController: DbController) {
 
     fun getTodosFromDbForCurrentUser(userId: Long): Single<List<Todo>> {
         return dbController.getTodosForCurrentUser(userId = userId)
