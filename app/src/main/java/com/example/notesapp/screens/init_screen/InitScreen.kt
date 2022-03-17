@@ -13,10 +13,7 @@ class InitScreen : Fragment(R.layout.fragment_init_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val isUserLoggedIn = preferences.getValueIsUserLoggedIn()
-
-        if (isUserLoggedIn) {
+        if (preferences.getUserIdFromPref() != preferences.getDefaultUserId()) {
             findNavController().navigate(R.id.action_initScreen_to_notesScreen)
         } else {
             findNavController().navigate(R.id.action_initScreen_to_generalScreen)

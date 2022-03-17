@@ -50,7 +50,6 @@ class LoginScreen: Fragment(R.layout.fragment_login_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner,{
                 changeVisibilityView(binding.progressBar, false)
-                preferences.putValueIsUserLoggedIn(true)
                 preferences.putUserIdInPref(it.id)
                 findNavController().navigate(R.id.action_loginScreen_to_notesScreen)
             })

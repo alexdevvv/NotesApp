@@ -58,7 +58,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner, {
                 changeVisibilityView(binding.progressBar, false)
-                preferences.putValueIsUserLoggedIn(true)
                 preferences.putUserIdInPref(it.id)
                 stepOnFragmentNotesScreen()
 

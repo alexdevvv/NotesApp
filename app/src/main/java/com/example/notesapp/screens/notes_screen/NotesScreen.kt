@@ -49,7 +49,6 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.logout_bt) {
-            preferences.putValueIsUserLoggedIn(false)
             preferences.deleteUserIdFromPref()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
         }
