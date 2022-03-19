@@ -1,22 +1,22 @@
 package com.example.notesapp.domain.usecases
 
 import com.example.notesapp.domain.controller.DbController
-import com.example.notesapp.domain.model.Todo
+import com.example.notesapp.domain.model.ModelTodo
 import io.reactivex.Completable
 import io.reactivex.Single
 
 class GetDataFromDbUseCase(private val dbController: DbController) {
 
-    fun getTodosFromDbForCurrentUser(userId: Long): Single<List<Todo>> {
+    fun getTodosFromDbForCurrentUser(userId: Long): Single<List<ModelTodo>> {
         return dbController.getTodosForCurrentUser(userId = userId)
     }
 
-    fun deleteTodo(todo: Todo): Completable {
-        return dbController.deleteTodo(todo)
+    fun deleteTodo(modelTodo: ModelTodo): Completable {
+        return dbController.deleteTodo(modelTodo)
     }
 
-    fun insertTodo(todo: Todo): Completable {
-        return dbController.insertTodo(todo)
+    fun insertTodo(modelTodo: ModelTodo): Completable {
+        return dbController.insertTodo(modelTodo)
     }
 
 }

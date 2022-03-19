@@ -1,11 +1,9 @@
 package com.example.notesapp.data.retrofit
 
 import com.example.notesapp.domain.model.*
+import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface NotesAPI {
     @POST("users")
@@ -19,6 +17,10 @@ interface NotesAPI {
 
     @GET("users")
     fun  getUserTodosFromServer(@Query("id") userId: Long): Single<ModelUserLoginResponse>
+
+    @DELETE("todos")
+    fun deleteTodoFromServer(@Query("id") todoId: Long): Completable
+
 
 }
 

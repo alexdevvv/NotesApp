@@ -1,12 +1,9 @@
 package com.example.notesapp.screens.new_todo
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notesapp.domain.model.ModelGetTodoFromServer
 import com.example.notesapp.domain.model.ModelSendNewTodoToServer
-import com.example.notesapp.domain.model.Todo
+import com.example.notesapp.domain.model.ModelTodo
 import com.example.notesapp.domain.usecases.AddNewTodoUseCase
 import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,9 +17,9 @@ class NewTodoScreenVM(
 
     private val disposable = CompositeDisposable()
 
-    fun insertTodoInDatabase(todo: Todo) {
+    fun insertTodoInDatabase(modelTodo: ModelTodo) {
         disposable.add(
-            getDataFromDbUseCase.insertTodo(todo)
+            getDataFromDbUseCase.insertTodo(modelTodo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -38,6 +35,7 @@ class NewTodoScreenVM(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                           // мне нужно получать id заметки и передавать его при создании todo
                 }, {
                     Log.e("error", "Ошибка отправки на сервер!")
                 })
