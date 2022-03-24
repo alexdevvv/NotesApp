@@ -1,7 +1,7 @@
 package com.example.notesapp.domain.model
 
 data class ModelTodo(
-    val id: Long,
+    val userId: Long,
     val title: String,
     val completed: Boolean
 ){

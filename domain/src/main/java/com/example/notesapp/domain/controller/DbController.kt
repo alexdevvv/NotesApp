@@ -10,4 +10,6 @@ interface DbController {
     fun deleteTodo(modelTodo: ModelTodo): Completable
 
     fun insertTodo(modelTodo: ModelTodo): Completable
+
+    fun overrideTodosTable(todos: List<ModelTodo>)
 }

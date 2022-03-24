@@ -23,4 +23,8 @@ val useCasesModule  = module {
         GetDataFromServerUseCase(get())
     }
 
+    single<OverrideDatabaseUseCase> {
+        OverrideDatabaseUseCase(get())
+    }
+
 }

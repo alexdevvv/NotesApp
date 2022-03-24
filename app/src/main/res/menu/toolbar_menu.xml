@@ -2,10 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/update_bt"
+        android:title="update"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@+id/logout_bt"
         android:title="logout"
         android:icon="@drawable/outline_logout_24"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         />
+
+
+
 
 </menu>

@@ -7,17 +7,20 @@ import androidx.lifecycle.ViewModel
 import com.example.notesapp.domain.model.ModelTodo
 import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
 import com.example.notesapp.domain.usecases.GetDataFromServerUseCase
+import com.example.notesapp.domain.usecases.OverrideDatabaseUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class NotesScreenVM(
     private val getDataFromDbUseCase: GetDataFromDbUseCase,
     private val getDataFromServerUseCase: GetDataFromServerUseCase,
+    private val  overrideDatabaseUseCase: OverrideDatabaseUseCase
 ) : ViewModel() {
 
     private var userId: Long? = null
-
     private val getTodosFromBDLiveData = MutableLiveData<MutableList<ModelTodo>>()
     private val filteredTodosLiveData = MutableLiveData<MutableList<ModelTodo>>()
     private val deleteTodoLiveData = MutableLiveData<String>()
@@ -47,13 +50,17 @@ class NotesScreenVM(
         )
     }
 
-    private fun getTodosFromServer() {
-        disposable.add(getDataFromServerUseCase.getTodosFromDb()
+     fun getTodosFromServer() {
+        disposable.add(getDataFromServerUseCase.getTodosFromServer()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     todosFromServerLiveData.postValue(it)
+                    GlobalScope.launch {
+                        overrideDatabaseUseCase.overrideTodosTable(it)
+                    }
+
                 }, {
                     getTodosFromDb()
                 }

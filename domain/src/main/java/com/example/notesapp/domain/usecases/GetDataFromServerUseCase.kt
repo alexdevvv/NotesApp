@@ -8,7 +8,7 @@ import io.reactivex.Single
 
 class GetDataFromServerUseCase(private val networkController: NetworkController) {
 
-    fun getTodosFromDb(): Single<List<ModelTodo>> =
+    fun getTodosFromServer(): Single<List<ModelTodo>> =
         networkController.getTodosFromServer()
 
     fun deleteTodo(todoId: Long): Completable = networkController.deleteTodoFromServer(todoId)

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -52,9 +51,12 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
         if (item.itemId == R.id.logout_bt) {
             preferences.deleteUserIdFromPref()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
+        }else if(item.itemId == R.id.update_bt){
+            viewModel.getTodosFromServer()
         }
         return true
     }
+
 
     private fun initRecyclerView() {
         with(binding) {
@@ -144,7 +146,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
                 val todoFromServer =
                     viewModel.getTodosFromServerLiveData().value?.get(viewHolder.adapterPosition)
                 todoFromServer?.let {
-                    viewModel.deleteTodoFromServer(it.id)
+                    viewModel.deleteTodoFromServer(it.userId)
                 }
             }
         }
