@@ -1,5 +1,6 @@
 package com.example.notesapp.domain.controller
 import com.example.notesapp.domain.model.*
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface NetworkController {
@@ -8,4 +9,8 @@ interface NetworkController {
     fun login(body: ModelSendUserDataToServer): Single<ModelUserLoginResponse>
 
     fun addNewTodo(body: ModelSendNewTodoToServer): Single<ModelGetTodoFromServer>
+
+    fun getTodosFromServer(): Single<List<ModelTodo>>
+
+    fun deleteTodoFromServer(todoId: Long): Completable
 }

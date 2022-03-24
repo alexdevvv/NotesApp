@@ -3,7 +3,6 @@ package com.example.notesapp.screens.login_screen
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -51,9 +50,7 @@ class LoginScreen: Fragment(R.layout.fragment_login_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner,{
                 changeVisibilityView(binding.progressBar, false)
-                preferences.putValueIsUserLoggedIn(true)
                 preferences.putUserIdInPref(it.id)
-                Log.e("save_ID", it.id.toString())
                 findNavController().navigate(R.id.action_loginScreen_to_notesScreen)
             })
 

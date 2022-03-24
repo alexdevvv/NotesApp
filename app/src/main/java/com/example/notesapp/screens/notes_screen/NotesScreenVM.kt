@@ -1,66 +1,108 @@
 package com.example.notesapp.screens.notes_screen
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notesapp.domain.model.Todo
-import com.example.notesapp.domain.usecases.GetFromDbUseCase
+import com.example.notesapp.domain.model.ModelTodo
+import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
+import com.example.notesapp.domain.usecases.GetDataFromServerUseCase
+import com.example.notesapp.domain.usecases.OverrideDatabaseUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel() {
+class NotesScreenVM(
+    private val getDataFromDbUseCase: GetDataFromDbUseCase,
+    private val getDataFromServerUseCase: GetDataFromServerUseCase,
+    private val  overrideDatabaseUseCase: OverrideDatabaseUseCase
+) : ViewModel() {
 
     private var userId: Long? = null
-
-    private val getTodosLiveData = MutableLiveData<MutableList<Todo>>()
-    private val filteredTodosLiveData = MutableLiveData<MutableList<Todo>>()
-    private val liveDataDeleteTodo = MutableLiveData<String>()
+    private val getTodosFromBDLiveData = MutableLiveData<MutableList<ModelTodo>>()
+    private val filteredTodosLiveData = MutableLiveData<MutableList<ModelTodo>>()
+    private val deleteTodoLiveData = MutableLiveData<String>()
+    private val todosFromServerLiveData = MutableLiveData<List<ModelTodo>>()
     private val disposable = CompositeDisposable()
 
-    fun getTodosLiveData(): LiveData<MutableList<Todo>> = getTodosLiveData
-    fun getDataDeleteTodo(): LiveData<String> = liveDataDeleteTodo
-    fun getFilterTodosLiveData(): LiveData<MutableList<Todo>> = filteredTodosLiveData
+    fun getTodosFromBDLiveData(): LiveData<MutableList<ModelTodo>> = getTodosFromBDLiveData
+    fun getDataDeleteTodo(): LiveData<String> = deleteTodoLiveData
+    fun getFilterTodosLiveData(): LiveData<MutableList<ModelTodo>> = filteredTodosLiveData
+    fun getTodosFromServerLiveData(): LiveData<List<ModelTodo>> = todosFromServerLiveData
 
-     fun init(userId: Long){
-         this.userId = userId
-     }
+    fun init(userId: Long) {
+        this.userId = userId
+        getTodosFromServer()
+    }
 
     fun getTodosFromDb() {
-        disposable.add(getFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
+        disposable.add(getDataFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    getTodosLiveData.postValue(it as MutableList<Todo>?)
+                    getTodosFromBDLiveData.postValue(it as MutableList<ModelTodo>?)
                 }, {
                 }
             )
         )
     }
 
-    fun deleteTodo(todo: Todo) {
+     fun getTodosFromServer() {
+        disposable.add(getDataFromServerUseCase.getTodosFromServer()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    todosFromServerLiveData.postValue(it)
+                    GlobalScope.launch {
+                        overrideDatabaseUseCase.overrideTodosTable(it)
+                    }
+
+                }, {
+                    getTodosFromDb()
+                }
+            )
+        )
+    }
+
+    fun deleteTodoFromDb(modelTodo: ModelTodo) {
         disposable.add(
-            getFromDbUseCase.deleteTodo(todo)
+            getDataFromDbUseCase.deleteTodo(modelTodo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        liveDataDeleteTodo.postValue("Заметка успешно удалена")
+                        deleteTodoLiveData.postValue("Заметка успешно удалена")
                         getTodosFromDb()
-
                     },
                     {
-                        liveDataDeleteTodo.postValue("Ошибка при удалении")
+                        deleteTodoLiveData.postValue("Ошибка при удалении")
                     },
+                )
+        )
+    }
+
+    fun deleteTodoFromServer(todoId: Long) {
+        disposable.add(
+            getDataFromServerUseCase.deleteTodo(todoId = todoId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    getTodosFromServer()
+                }, {
+                    Log.e("XXX", it.message.toString())
+                }
                 )
         )
     }
 
     fun filterTodos(searchText: String) {
         if (searchText.isNotEmpty()) {
-            getTodosLiveData.value?.let { databaseTodoList ->
-                val filterTodoList = mutableListOf<Todo>()
+            getTodosFromBDLiveData.value?.let { databaseTodoList ->
+                val filterTodoList = mutableListOf<ModelTodo>()
                 for (item in databaseTodoList) {
                     if (item.title.lowercase().contains(searchText.lowercase())) {
                         filterTodoList.add(item)
@@ -69,7 +111,7 @@ class NotesScreenVM(private val getFromDbUseCase: GetFromDbUseCase) : ViewModel(
                 filteredTodosLiveData.value = filterTodoList
             }
         } else {
-            filteredTodosLiveData.value = getTodosLiveData.value
+            filteredTodosLiveData.value = getTodosFromBDLiveData.value
         }
     }
 

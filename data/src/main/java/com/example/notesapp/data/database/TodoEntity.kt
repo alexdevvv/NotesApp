@@ -2,7 +2,7 @@ package com.example.notesapp.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.notesapp.domain.model.Todo
+import com.example.notesapp.domain.model.ModelTodo
 
 @Entity
 class TodoEntity(
@@ -13,5 +13,13 @@ class TodoEntity(
     val completed: Boolean
 ) {
 
-    fun toModel() = Todo(id = id, userId = userId, title = title, completed = completed)
+    fun toModel() = ModelTodo(dbId = id, userId = userId, title = title, completed = completed)
+
+
+    companion object{
+        fun fromModel(model: ModelTodo) = TodoEntity(model.dbId, model.userId, model.title, model.completed)
+    }
+
+
+
 }
