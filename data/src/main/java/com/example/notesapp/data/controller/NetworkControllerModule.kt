@@ -5,7 +5,7 @@ import org.koin.dsl.module
 
 val networkControllerModule = module {
     single<NetworkController>{
-        NetworkControllerImpl(get())
+        NetworkControllerImpl(get(), get())
     }
 }
 

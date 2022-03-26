@@ -12,7 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.notesapp.R
 import com.example.notesapp.data.PreferencesManager
 import com.example.notesapp.databinding.FragmentRegistrationScreenBinding
-import com.example.notesapp.domain.model.UserModel
+import com.example.notesapp.domain.model.ModelSendUserDataToServer
 import com.example.notesapp.screens.createDialog
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,7 +46,7 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
             registrationViewGroup.setOnClickListener {
                 registrationViewGroup.isEnabled = false //  Кликабельность
                 changeVisibilityTwoView(isCheckedLoad = true)
-                val modelSendDataOnServer = UserModel(
+                val modelSendDataOnServer = ModelSendUserDataToServer(
                     userNameEt.text.toString(), userPasswordEt.text.toString()
                 )
                 viewModel.getResponseServer(modelSendDataOnServer)
@@ -58,7 +58,6 @@ class RegistrationScreen : Fragment(R.layout.fragment_registration_screen) {
         with(viewModel) {
             getLiveDataModel().observe(viewLifecycleOwner, {
                 changeVisibilityView(binding.progressBar, false)
-                preferences.putValueIsUserLoggedIn(true)
                 preferences.putUserIdInPref(it.id)
                 stepOnFragmentNotesScreen()
 

@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.R
-import com.example.notesapp.domain.model.Todo
-import java.util.*
+import com.example.notesapp.domain.model.ModelTodo
 
 class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
 
-    private var todosList = mutableListOf<Todo>()
+    private var todosList = mutableListOf<ModelTodo>()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(todoEntityDb: Todo) {
+        fun bindView(modelTodo: ModelTodo) {
             val todoName: TextView = itemView.findViewById(R.id.todo_name_tv)
-            todoName.text = todoEntityDb.title
+            todoName.text = modelTodo.title
         }
     }
 
@@ -35,7 +34,7 @@ class TodosAdapter : RecyclerView.Adapter<TodosAdapter.MyViewHolder>() {
         return todosList.size
     }
 
-    fun updateData(list: MutableList<Todo>?) {
+    fun updateData(list: MutableList<ModelTodo>?) {
         if (list != null) {
             todosList = list
         }

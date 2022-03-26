@@ -35,7 +35,6 @@ class GeneralScreen : Fragment(R.layout.fragment_general_screen) {
             onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
                 OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-
                     finish()
                 }
             })

@@ -11,8 +11,20 @@ val useCasesModule  = module {
         LoginUseCase(get())
     }
 
-    single<GetFromDbUseCase> {
-        GetFromDbUseCase(get())
+    single<GetDataFromDbUseCase> {
+        GetDataFromDbUseCase(get())
+    }
+
+    single<AddNewTodoUseCase> {
+        AddNewTodoUseCase(get())
+    }
+
+    single<GetDataFromServerUseCase> {
+        GetDataFromServerUseCase(get())
+    }
+
+    single<OverrideDatabaseUseCase> {
+        OverrideDatabaseUseCase(get())
     }
 
 }
