@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.notesapp.domain.model.ModelTodo
 import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
 import com.example.notesapp.domain.usecases.GetDataFromServerUseCase
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class NotesScreenVM(
     private val getDataFromDbUseCase: GetDataFromDbUseCase,
     private val getDataFromServerUseCase: GetDataFromServerUseCase,
-    private val  overrideDatabaseUseCase: OverrideDatabaseUseCase
+    private val overrideDatabaseUseCase: OverrideDatabaseUseCase
 ) : ViewModel() {
 
     private var userId: Long? = null
@@ -44,13 +45,14 @@ class NotesScreenVM(
             .subscribe(
                 {
                     getTodosFromBDLiveData.postValue(it as MutableList<ModelTodo>?)
+                    Log.e("Что хранится в базе", it.size.toString())
                 }, {
                 }
             )
         )
     }
 
-     fun getTodosFromServer() {
+    fun getTodosFromServer() {
         disposable.add(getDataFromServerUseCase.getTodosFromServer()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -59,6 +61,7 @@ class NotesScreenVM(
                     todosFromServerLiveData.postValue(it)
                     GlobalScope.launch {
                         overrideDatabaseUseCase.overrideTodosTable(it)
+                        Log.e("listSize", it.size.toString())
                     }
 
                 }, {

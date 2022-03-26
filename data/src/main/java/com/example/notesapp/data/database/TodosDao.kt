@@ -22,9 +22,12 @@ interface TodosDao {
         insertAllTodos(todos)
     }
 
-    @Query("DELETE FROM TodoEntity")
+    @Query("DELETE  FROM TodoEntity")
     fun clearDb()
+
 
     @Insert
     fun insertAllTodos(todos: List<TodoEntity>)
+
+
 }

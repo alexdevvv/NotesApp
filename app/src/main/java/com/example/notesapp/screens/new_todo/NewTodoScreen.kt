@@ -28,7 +28,6 @@ class NewTodoScreen : Fragment(R.layout.fragment_new_todo_screen) {
     }
 
     private fun initAddNewTodoButton() {
-        Log.e("!!!", preferences.getUserIdFromPref().toString())
         binding.saveNoteBt.setOnClickListener(View.OnClickListener {
             if (binding.addNameNoteEt.text.isNotEmpty()) {
                 viewModel.insertTodoInDatabase(

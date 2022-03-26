@@ -21,7 +21,9 @@ class DbControllerImpl(private val dao: TodosDao) : DbController {
         return dao.insertTodo(todoEntity = TodoEntity.fromModel(modelTodo))
     }
 
-    override fun overrideTodosTable(todos: List<ModelTodo>) =
-        dao.overrideTodosTable(todos.map { TodoEntity.fromModel(it) })
+   override  fun overrideTodosTable(todos: List<ModelTodo>) {
+      dao.overrideTodosTable(todos.map { TodoEntity.fromModel(it) })
+   }
+
 
 }

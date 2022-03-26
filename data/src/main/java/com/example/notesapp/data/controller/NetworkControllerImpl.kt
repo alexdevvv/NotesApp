@@ -12,6 +12,8 @@ class NetworkControllerImpl(
     private val preferencesManager: PreferencesManager
 ) : NetworkController {
 
+    private val userId = preferencesManager.getUserIdFromPref()
+
     override fun registration(body: ModelSendUserDataToServer): Single<ModelUserRegistrationResponse> =
         api.getDataRegistrationUser(body = body)
 
@@ -19,10 +21,10 @@ class NetworkControllerImpl(
         api.getDataLoginUser(body = body)
 
     override fun addNewTodo(body: ModelSendNewTodoToServer): Single<ModelGetTodoFromServer> =
-        api.getDataCreateTodo(body = body, userId = preferencesManager.getUserIdFromPref())
+        api.getDataCreateTodo(body = body, userId = userId)
 
     override fun getTodosFromServer(): Single<List<ModelTodo>> =
-        api.getUserTodosFromServer(userId = preferencesManager.getUserIdFromPref()).map { it.todos.map { it.toModelTodo() } }
+        api.getUserTodosFromServer(userId = userId).map { it.todos.map { it.toModelTodo(userId) } }
 
     override fun deleteTodoFromServer(todoId: Long): Completable =
         api.deleteTodoFromServer(todoId = todoId)

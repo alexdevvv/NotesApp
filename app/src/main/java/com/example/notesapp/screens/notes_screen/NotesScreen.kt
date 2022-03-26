@@ -41,6 +41,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
         deleteTodo()
         initSystemBackButton()
         initFloatingActionButton()
+        hideKeyboard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -51,7 +52,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
         if (item.itemId == R.id.logout_bt) {
             preferences.deleteUserIdFromPref()
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
-        }else if(item.itemId == R.id.update_bt){
+        } else if (item.itemId == R.id.update_bt) {
             viewModel.getTodosFromServer()
         }
         return true
@@ -102,16 +103,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
             }
 
         })
-    }
 
-    private fun clearSearchText() {
-        binding.clearTextTv.setOnClickListener {
-            binding.searchEt.text = null
-            hideKeyboard()
-            binding.searchEt.clearFocus()
-            viewModel.getTodosFromDb(
-            )
-        }
     }
 
     override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
@@ -126,6 +118,16 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
             requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inp.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
+    }
+
+    private fun clearSearchText() {
+        binding.clearTextTv.setOnClickListener {
+            binding.searchEt.text = null
+            hideKeyboard()
+            binding.searchEt.clearFocus()
+            viewModel.getTodosFromDb()
+            viewModel.getTodosFromServer()
+        }
     }
 
     private fun deleteTodo() {
