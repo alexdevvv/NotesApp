@@ -24,9 +24,14 @@ class NetworkControllerImpl(
         api.getDataCreateTodo(body = body, userId = userId)
 
     override fun getTodosFromServer(): Single<List<ModelTodo>> =
-        api.getUserTodosFromServer(userId = userId).map { it.todos.map { it.toModelTodo(userId) } }
+        api.getUserTodosFromServer(userId = userId).map { it.todos.map { it.toModelTodo2(userId) } }
 
     override fun deleteTodoFromServer(todoId: Long): Completable =
         api.deleteTodoFromServer(todoId = todoId)
+
+    override fun createAllTodos(body: List<ModelSendNewTodoToServer>): Single<List<ModelGetTodoFromServer>> =
+        api.createAllTodos(body, userId)
+
+
 
 }

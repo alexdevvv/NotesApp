@@ -54,6 +54,8 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
             findNavController().navigate(R.id.action_notesScreen_to_generalScreen)
         } else if (item.itemId == R.id.update_bt) {
             viewModel.getTodosFromServer()
+        } else if (item.itemId == R.id.update2_bt) {
+            viewModel.getTodosIdFromServer()
         }
         return true
     }
@@ -101,9 +103,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
             override fun afterTextChanged(searchText: Editable?) {
                 viewModel.filterTodos(searchText.toString())
             }
-
         })
-
     }
 
     override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {

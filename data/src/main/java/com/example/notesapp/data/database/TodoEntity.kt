@@ -17,8 +17,7 @@ class TodoEntity(
 
     companion object{
         fun fromModel(model: ModelTodo) = TodoEntity(model.dbId, model.userId, model.title, model.completed)
+
     }
-
-
 
 }

@@ -15,6 +15,9 @@ interface NotesAPI {
     @POST("todos" )
     fun getDataCreateTodo(@Body body: ModelSendNewTodoToServer, @Query ("userId") userId: Long): Single<ModelGetTodoFromServer>
 
+    @POST("todos/createAll")
+    fun createAllTodos(@Body body: List<ModelSendNewTodoToServer>, @Query("userId") userId: Long): Single<List<ModelGetTodoFromServer>>
+
     @GET("users")
     fun  getUserTodosFromServer(@Query("id") userId: Long): Single<ModelUserLoginResponse>
 

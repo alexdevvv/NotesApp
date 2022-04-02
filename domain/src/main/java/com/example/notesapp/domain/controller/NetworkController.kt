@@ -13,4 +13,8 @@ interface NetworkController {
     fun getTodosFromServer(): Single<List<ModelTodo>>
 
     fun deleteTodoFromServer(todoId: Long): Completable
+
+    fun createAllTodos(body: List<ModelSendNewTodoToServer>): Single<List<ModelGetTodoFromServer>>
+
+
 }

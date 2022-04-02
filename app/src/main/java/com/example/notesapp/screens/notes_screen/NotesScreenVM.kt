@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.example.notesapp.domain.model.ModelSendNewTodoToServer
 import com.example.notesapp.domain.model.ModelTodo
 import com.example.notesapp.domain.usecases.GetDataFromDbUseCase
 import com.example.notesapp.domain.usecases.GetDataFromServerUseCase
 import com.example.notesapp.domain.usecases.OverrideDatabaseUseCase
+import com.example.notesapp.domain.usecases.SendTodosToServerUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class NotesScreenVM(
     private val getDataFromDbUseCase: GetDataFromDbUseCase,
     private val getDataFromServerUseCase: GetDataFromServerUseCase,
-    private val overrideDatabaseUseCase: OverrideDatabaseUseCase
+    private val overrideDatabaseUseCase: OverrideDatabaseUseCase,
+    private val sendTodosToServerUseCase: SendTodosToServerUseCase
 ) : ViewModel() {
 
     private var userId: Long? = null
@@ -52,6 +54,64 @@ class NotesScreenVM(
         )
     }
 
+    private fun getAllTodosForSendToServer(listId: List<Long>) {
+        val todosForSendToServer = mutableListOf<ModelSendNewTodoToServer>()
+        disposable.add(getDataFromDbUseCase.getTodosFromDbForCurrentUser(userId!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    if (it.isNotEmpty()) {
+                        val todosIdFromDb = getTodosFromBDLiveData.value!!.map { it.dbId }
+                        for (id in todosIdFromDb) {
+                            if (!listId.contains(id.toLong())) {
+                                todosForSendToServer.add(
+                                    ModelSendNewTodoToServer(
+                                        it.find { it.dbId == id }!!.title,
+                                        true
+                                    )
+                                )
+                            }
+                        }
+                        sendAllTodosToServer(todosForSendToServer)
+                    }
+
+                }, {
+                    Log.e("Error", "Error send all todos to server")
+                }
+            )
+        )
+    }
+
+    fun getTodosIdFromServer() {
+        disposable.add(getDataFromServerUseCase.getTodosFromServer()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    val idTodos = it.map { it.idTodoFromServer }
+                    getAllTodosForSendToServer(idTodos)
+                }, {
+                    Log.e("Error", "Error get todos id from server")
+                }
+            )
+        )
+    }
+
+    fun sendAllTodosToServer(body: List<ModelSendNewTodoToServer>) {
+        disposable.add(sendTodosToServerUseCase.sendTodosToServer(body)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    getTodosFromServer()
+                }, {
+
+                }
+            ))
+    }
+
+
     fun getTodosFromServer() {
         disposable.add(getDataFromServerUseCase.getTodosFromServer()
             .subscribeOn(Schedulers.io())
@@ -61,7 +121,6 @@ class NotesScreenVM(
                     todosFromServerLiveData.postValue(it)
                     GlobalScope.launch {
                         overrideDatabaseUseCase.overrideTodosTable(it)
-                        Log.e("listSize", it.size.toString())
                     }
 
                 }, {

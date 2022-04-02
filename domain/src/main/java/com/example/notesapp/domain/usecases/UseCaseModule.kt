@@ -27,4 +27,8 @@ val useCasesModule  = module {
         OverrideDatabaseUseCase(get())
     }
 
+    single<SendTodosToServerUseCase> {
+        SendTodosToServerUseCase(get())
+    }
+
 }
