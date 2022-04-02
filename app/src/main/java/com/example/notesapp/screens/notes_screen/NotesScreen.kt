@@ -148,7 +148,7 @@ class NotesScreen : Fragment(R.layout.fragment_notes_screen), TextView.OnEditorA
                 val todoFromServer =
                     viewModel.getTodosFromServerLiveData().value?.get(viewHolder.adapterPosition)
                 todoFromServer?.let {
-                    viewModel.deleteTodoFromServer(it.userId)
+                    viewModel.deleteTodoFromServer(it.idTodoFromServer)
                 }
             }
         }

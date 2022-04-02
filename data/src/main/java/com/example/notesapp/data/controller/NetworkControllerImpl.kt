@@ -32,6 +32,4 @@ class NetworkControllerImpl(
     override fun createAllTodos(body: List<ModelSendNewTodoToServer>): Single<List<ModelGetTodoFromServer>> =
         api.createAllTodos(body, userId)
 
-
-
 }
